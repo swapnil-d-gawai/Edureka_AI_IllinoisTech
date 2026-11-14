@@ -1,0 +1,313 @@
+order_id,date,city,item,price,qty,rating,note
+1001,2026-02-25,Pune,Masala Chai,20,4.0,3.0,ok
+1002,2026-02-06,Delhi,Cutting Chai,15,,3.0,slow service
+1003,2026-02-10,Delhi,Samosa,25,5.0,4.0,too sweet
+1004,2026-02-22,Delhi,Filter Coffee,35,4.0,4.0,coffee was cold
+1005,2026-02-04,Delhi,Masala Chai,20,1.0,2.0,"perfect, will return"
+1006,2026-02-15,Goa,Samosa,25,2.0,,ok
+1007,2026-02-19,Mumbai,Cutting Chai,15,3.0,3.0,"perfect, will return"
+1008,2026-01-14,Mumbai,Filter Coffee,35,1.0,1.0,crowded but good
+1009,2026-01-04,Pune,Filter Coffee,Rs 35,3.0,3.0,ok
+1010,2026-01-18,Pune,Filter Coffee,35,1.0,,"perfect, will return"
+1011,2026-01-17,Pune,Cutting Chai,15,3.0,1.0,coffee was cold
+1012,2026-02-21,Goa,Cutting Chai,15,1.0,,coffee was cold
+1013,2026-02-23,Delhi,Masala Chai,20,2.0,5.0,too sweet
+1014,2026-01-01,Pune,Filter Coffee,35,2.0,1.0,great chai
+1015,2026-01-30,Delhi,Cutting Chai,Rs 15,5.0,5.0,great chai
+1016,2026-02-18,Mumbai,Cutting Chai,15,3.0,2.0,ok
+1017,2026-01-08,Delhi,Masala Chai,20,3.0,,slow service
+1018,2026-02-17,Delhi,Filter Coffee,35,5.0,1.0,great chai
+1019,2026-01-08,Mumbai,Samosa,25,1.0,4.0,too sweet
+1020,2026-01-28,Goa,Cutting Chai,15,,3.0,too sweet
+1021,2026-02-18,Mumbai,Cutting Chai,15,3.0,2.0,loved the samosa
+1022,2026-01-18,DELHI,Cutting Chai,Rs 15,5.0,2.0,"perfect, will return"
+1023,2026-01-21,Delhi,Masala Chai,20,4.0,3.0,crowded but good
+1024,2026-01-17,Pune,Samosa,25,4.0,3.0,crowded but good
+1025,2026-02-12,Pune,Samosa,25,2.0,4.0,ok
+1026,2026-01-16,Mumbai,Filter Coffee,35,5.0,2.0,crowded but good
+1027,2026-02-28,Delhi,Masala Chai,20,1.0,2.0,slow service
+1028,2026-01-27,Delhi,Cutting Chai,Rs 15,3.0,1.0,loved the samosa
+1029,2026-01-29,Delhi,Masala Chai,20,2.0,,"perfect, will return"
+1030,2026-01-30,Pune,Samosa,Rs 25,1.0,2.0,too sweet
+1031,2026-02-04,Goa,Samosa,25,1.0,5.0,"perfect, will return"
+1032,2026-02-02,Delhi,Cutting Chai,15,4.0,,great chai
+1033,2026-01-31,GOA,Cutting Chai,15,5.0,4.0,too sweet
+1034,2026-02-28,Mumbai,Samosa,25,2.0,2.0,crowded but good
+1035,2026-02-17,Goa,Masala Chai,20,,2.0,slow service
+1036,2026-02-16,Pune,Samosa,25,1.0,3.0,ok
+1037,2026-02-11,Pune,Samosa,25,1.0,3.0,crowded but good
+1038,2026-02-06,pune ,Cutting Chai,15,4.0,4.0,too sweet
+1039,2026-01-21,Pune,Samosa,25,1.0,5.0,ok
+1040,2026-02-28,Pune,Filter Coffee,35,4.0,3.0,crowded but good
+1041,2026-01-28,Pune,Samosa,25,4.0,2.0,ok
+1042,2026-01-13,Delhi,Masala Chai,20,2.0,5.0,loved the samosa
+1043,2026-02-19,Pune,Filter Coffee,35,2.0,3.0,ok
+1044,2026-01-10,Delhi,Cutting Chai,15,2.0,5.0,slow service
+1045,2026-02-20,Pune,Samosa,25,4.0,2.0,slow service
+1046,2026-02-06,Delhi,Samosa,25,5.0,2.0,coffee was cold
+1047,2026-01-07,Pune,Cutting Chai,15,4.0,1.0,slow service
+1048,2026-01-03,mumbai ,Filter Coffee,35,2.0,4.0,great chai
+1049,2026-01-27,Goa,Cutting Chai,15,4.0,3.0,"perfect, will return"
+1050,2026-01-03,Mumbai,Filter Coffee,35,4.0,2.0,loved the samosa
+1051,2026-01-09,Delhi,Samosa,25,3.0,3.0,crowded but good
+1052,2026-01-31,Delhi,Filter Coffee,35,1.0,1.0,too sweet
+1053,2026-02-27,Delhi,Samosa,25,2.0,5.0,too sweet
+1054,2026-01-28,Pune,Filter Coffee,35,5.0,3.0,"perfect, will return"
+1055,2026-02-17,Delhi,Cutting Chai,15,3.0,2.0,"perfect, will return"
+1056,2026-02-24,Pune,Filter Coffee,35,1.0,4.0,coffee was cold
+1057,2026-02-18,Delhi,Cutting Chai,15,5.0,4.0,coffee was cold
+1058,2026-02-07,Goa,Cutting Chai,15,3.0,5.0,crowded but good
+1059,2026-01-27,Goa,Masala Chai,20,2.0,4.0,ok
+1060,2026-01-31,Pune,Masala Chai,20,1.0,1.0,ok
+1061,2026-01-16,Mumbai,Cutting Chai,15,3.0,3.0,ok
+1062,2026-01-30,mumbai ,Cutting Chai,15,3.0,4.0,slow service
+1063,2026-01-23,Pune,Filter Coffee,35,1.0,5.0,crowded but good
+1064,2026-01-15,Delhi,Cutting Chai,15,5.0,3.0,slow service
+1065,2026-02-28,Delhi,Masala Chai,20,3.0,5.0,crowded but good
+1066,2026-01-01,Mumbai,Cutting Chai,15,1.0,1.0,ok
+1067,2026-01-06,Goa,Filter Coffee,35,1.0,2.0,loved the samosa
+1068,2026-01-12,Delhi,Samosa,25,2.0,5.0,coffee was cold
+1069,2026-02-27,Pune,Filter Coffee,35,4.0,1.0,great chai
+1070,2026-02-10,Delhi,Cutting Chai,15,4.0,,great chai
+1071,2026-02-22,Goa,Cutting Chai,15,5.0,2.0,too sweet
+1072,2026-01-12,Pune,Cutting Chai,15,4.0,1.0,great chai
+1073,2026-02-12,Delhi,Samosa,25,5.0,1.0,loved the samosa
+1074,2026-01-22,Delhi,Cutting Chai,15,2.0,5.0,ok
+1075,2026-01-29,Delhi,Masala Chai,20,3.0,5.0,"perfect, will return"
+1076,2026-01-01,PUNE,Filter Coffee,35,4.0,1.0,coffee was cold
+1077,2026-02-06,Delhi,Samosa,25,2.0,4.0,"perfect, will return"
+1078,2026-02-18,Delhi,Samosa,25,3.0,1.0,great chai
+1079,2026-02-09,Delhi,Cutting Chai,15,4.0,,"perfect, will return"
+1080,2026-01-10,Delhi,Samosa,25,5.0,2.0,coffee was cold
+1081,2026-02-01,Mumbai,Samosa,25,5.0,1.0,great chai
+1082,2026-01-16,Delhi,Cutting Chai,15,2.0,5.0,coffee was cold
+1083,2026-02-26,Goa,Cutting Chai,15,4.0,,"perfect, will return"
+1084,2026-02-21,Goa,Cutting Chai,15,4.0,1.0,loved the samosa
+1085,2026-01-11,Pune,Cutting Chai,15,5.0,2.0,ok
+1086,2026-01-31,Pune,Samosa,25,4.0,5.0,ok
+1087,2026-02-25,Delhi,Cutting Chai,15,2.0,,slow service
+1088,2026-02-19,Pune,Cutting Chai,15,4.0,4.0,ok
+1089,2026-02-11,Delhi,Samosa,25,,5.0,too sweet
+1090,2026-02-07,GOA,Filter Coffee,35,2.0,1.0,great chai
+1091,2026-01-03,Mumbai,Masala Chai,20,3.0,3.0,"perfect, will return"
+1092,2026-02-13,Pune,Masala Chai,Rs 20,4.0,3.0,too sweet
+1093,2026-01-28,Mumbai,Masala Chai,20,1.0,5.0,slow service
+1094,2026-01-06,Delhi,Samosa,25,,3.0,loved the samosa
+1095,2026-01-15,Pune,Masala Chai,20,1.0,5.0,"perfect, will return"
+1096,2026-02-01,Mumbai,Cutting Chai,15,2.0,3.0,crowded but good
+1097,2026-02-12,Pune,Filter Coffee,35,1.0,3.0,ok
+1098,2026-01-30,Delhi,Cutting Chai,15,1.0,4.0,coffee was cold
+1099,2026-02-06,Delhi,Masala Chai,20,2.0,5.0,ok
+1100,2026-02-21,Mumbai,Masala Chai,20,5.0,4.0,"perfect, will return"
+1101,2026-02-10,Mumbai,Samosa,25,3.0,4.0,crowded but good
+1102,2026-01-22,Mumbai,Cutting Chai,15,4.0,5.0,coffee was cold
+1103,2026-02-07,Pune,Cutting Chai,15,2.0,4.0,great chai
+1104,2026-02-05,Pune,Samosa,25,2.0,1.0,too sweet
+1105,2026-01-07,Mumbai,Cutting Chai,15,5.0,5.0,loved the samosa
+1106,2026-01-04,Mumbai,Samosa,25,4.0,5.0,crowded but good
+1107,2026-02-08,Pune,Masala Chai,20,3.0,2.0,loved the samosa
+1108,2026-01-23,Delhi,Cutting Chai,15,,3.0,great chai
+1109,2026-02-05,Delhi,Samosa,25,5.0,4.0,loved the samosa
+1110,2026-01-20,pune ,Samosa,25,3.0,4.0,"perfect, will return"
+1111,2026-01-14,Pune,Filter Coffee,35,1.0,4.0,ok
+1112,2026-01-09,Delhi,Cutting Chai,15,5.0,5.0,too sweet
+1113,2026-01-23,Pune,Samosa,25,3.0,1.0,slow service
+1114,2026-02-18,Pune,Cutting Chai,15,3.0,5.0,loved the samosa
+1115,2026-01-24,Pune,Filter Coffee,35,2.0,3.0,loved the samosa
+1116,2026-01-23,Pune,Filter Coffee,35,2.0,2.0,ok
+1117,2026-02-03,Goa,Cutting Chai,15,4.0,2.0,loved the samosa
+1118,2026-02-27,Pune,Masala Chai,20,,3.0,coffee was cold
+1119,2026-01-24,Mumbai,Filter Coffee,35,3.0,2.0,slow service
+1120,2026-02-04,delhi ,Cutting Chai,15,1.0,5.0,great chai
+1121,2026-01-26,Delhi,Filter Coffee,35,5.0,3.0,loved the samosa
+1122,2026-02-05,Pune,Filter Coffee,35,2.0,5.0,loved the samosa
+1123,2026-01-27,Mumbai,Samosa,Rs 25,4.0,4.0,too sweet
+1124,2026-02-07,Goa,Samosa,25,2.0,2.0,"perfect, will return"
+1125,2026-02-02,Mumbai,Filter Coffee,35,,3.0,slow service
+1126,2026-02-09,Delhi,Masala Chai,20,1.0,5.0,great chai
+1127,2026-02-26,pune ,Masala Chai,20,4.0,4.0,coffee was cold
+1128,2026-01-09,DELHI,Filter Coffee,35,1.0,3.0,slow service
+1129,2026-02-03,Delhi,Filter Coffee,35,,4.0,"perfect, will return"
+1130,2026-01-26,Delhi,Samosa,25,3.0,2.0,great chai
+1131,2026-01-22,Delhi,Cutting Chai,15,3.0,2.0,crowded but good
+1132,2026-01-15,MUMBAI,Cutting Chai,15,2.0,4.0,coffee was cold
+1133,2026-01-04,Pune,Masala Chai,20,2.0,1.0,"perfect, will return"
+1134,2026-01-24,Mumbai,Masala Chai,20,4.0,3.0,loved the samosa
+1135,2026-02-18,Delhi,Masala Chai,20,5.0,,ok
+1136,2026-01-06,Pune,Filter Coffee,35,5.0,3.0,coffee was cold
+1137,2026-01-24,Pune,Filter Coffee,35,4.0,2.0,ok
+1138,2026-02-27,Mumbai,Masala Chai,20,2.0,2.0,slow service
+1139,2026-02-26,Delhi,Cutting Chai,15,1.0,1.0,crowded but good
+1140,2026-01-13,Goa,Filter Coffee,35,3.0,3.0,"perfect, will return"
+1141,2026-01-01,Pune,Cutting Chai,15,3.0,4.0,ok
+1142,2026-02-09,Pune,Cutting Chai,15,3.0,1.0,too sweet
+1143,2026-01-01,Delhi,Cutting Chai,15,3.0,,coffee was cold
+1144,2026-01-18,Delhi,Filter Coffee,35,1.0,1.0,ok
+1145,2026-01-30,Delhi,Samosa,25,2.0,5.0,too sweet
+1146,2026-02-21,goa ,Cutting Chai,15,1.0,4.0,ok
+1147,2026-01-06,Goa,Cutting Chai,15,5.0,1.0,ok
+1148,2026-02-09,Delhi,Cutting Chai,15,5.0,3.0,loved the samosa
+1149,2026-02-01,delhi ,Masala Chai,Rs 20,5.0,3.0,"perfect, will return"
+1150,2026-01-08,Mumbai,Filter Coffee,35,3.0,4.0,loved the samosa
+1151,2026-02-19,Delhi,Samosa,25,5.0,2.0,"perfect, will return"
+1152,2026-02-19,Pune,Filter Coffee,35,5.0,5.0,crowded but good
+1153,2026-01-29,Delhi,Masala Chai,20,2.0,3.0,"perfect, will return"
+1154,2026-02-25,delhi ,Masala Chai,20,1.0,2.0,slow service
+1155,2026-02-05,Delhi,Masala Chai,20,5.0,,coffee was cold
+1156,2026-02-23,Mumbai,Samosa,25,3.0,2.0,crowded but good
+1157,2026-02-26,mumbai ,Cutting Chai,15,3.0,3.0,coffee was cold
+1158,2026-02-03,Mumbai,Cutting Chai,15,5.0,2.0,slow service
+1159,2026-01-17,Pune,Samosa,25,5.0,3.0,crowded but good
+1160,2026-01-09,Delhi,Cutting Chai,15,5.0,2.0,"perfect, will return"
+1161,2026-02-03,Mumbai,Masala Chai,20,1.0,3.0,"perfect, will return"
+1162,2026-01-12,Mumbai,Cutting Chai,15,1.0,4.0,slow service
+1163,2026-02-14,mumbai ,Cutting Chai,15,,4.0,coffee was cold
+1164,2026-02-24,Delhi,Masala Chai,20,3.0,2.0,coffee was cold
+1165,2026-01-15,Mumbai,Filter Coffee,35,2.0,3.0,too sweet
+1166,2026-02-02,Delhi,Cutting Chai,15,2.0,2.0,ok
+1167,2026-01-03,Goa,Samosa,25,3.0,2.0,coffee was cold
+1168,2026-01-11,Mumbai,Samosa,25,4.0,4.0,great chai
+1169,2026-01-23,Pune,Cutting Chai,15,4.0,4.0,slow service
+1170,2026-02-22,Delhi,Filter Coffee,35,1.0,1.0,crowded but good
+1171,2026-02-27,Goa,Samosa,25,2.0,,"perfect, will return"
+1172,2026-02-07,Pune,Masala Chai,20,2.0,,coffee was cold
+1173,2026-02-04,Delhi,Masala Chai,20,2.0,5.0,loved the samosa
+1174,2026-02-03,delhi ,Masala Chai,20,5.0,4.0,loved the samosa
+1175,2026-01-04,Goa,Masala Chai,20,3.0,1.0,ok
+1176,2026-01-23,Pune,Cutting Chai,15,3.0,4.0,slow service
+1177,2026-02-28,Pune,Samosa,25,5.0,2.0,crowded but good
+1178,2026-01-25,Goa,Samosa,Rs 25,3.0,2.0,great chai
+1179,2026-01-13,Pune,Cutting Chai,15,4.0,3.0,coffee was cold
+1180,2026-01-15,Pune,Cutting Chai,15,5.0,4.0,slow service
+1181,2026-02-12,Delhi,Samosa,25,5.0,4.0,loved the samosa
+1182,2026-01-03,Mumbai,Samosa,25,2.0,1.0,coffee was cold
+1183,2026-02-27,Delhi,Cutting Chai,15,3.0,4.0,great chai
+1184,2026-02-21,Pune,Filter Coffee,35,1.0,3.0,great chai
+1185,2026-02-03,Goa,Filter Coffee,35,4.0,5.0,coffee was cold
+1186,2026-01-28,Pune,Filter Coffee,35,2.0,3.0,"perfect, will return"
+1187,2026-02-14,Delhi,Samosa,25,1.0,5.0,great chai
+1188,2026-02-02,Pune,Samosa,25,1.0,2.0,ok
+1189,2026-01-29,Mumbai,Cutting Chai,15,1.0,4.0,loved the samosa
+1190,2026-01-20,Pune,Samosa,25,1.0,2.0,ok
+1191,2026-01-27,Mumbai,Masala Chai,20,1.0,,too sweet
+1192,2026-02-14,Mumbai,Cutting Chai,15,3.0,4.0,ok
+1193,2026-01-04,Delhi,Masala Chai,20,2.0,4.0,"perfect, will return"
+1194,2026-01-02,Mumbai,Cutting Chai,15,5.0,3.0,crowded but good
+1195,2026-02-12,Pune,Samosa,25,,4.0,crowded but good
+1196,2026-01-22,Goa,Cutting Chai,15,3.0,1.0,too sweet
+1197,2026-02-17,Goa,Masala Chai,20,3.0,2.0,too sweet
+1198,2026-01-02,Goa,Cutting Chai,15,,4.0,ok
+1199,2026-02-23,Pune,Masala Chai,20,4.0,1.0,loved the samosa
+1200,2026-01-08,Mumbai,Masala Chai,20,2.0,1.0,too sweet
+1201,2026-01-25,Pune,Cutting Chai,15,4.0,3.0,"perfect, will return"
+1202,2026-02-27,Pune,Cutting Chai,15,3.0,5.0,crowded but good
+1203,2026-01-07,Pune,Masala Chai,20,4.0,2.0,slow service
+1204,2026-02-08,Mumbai,Filter Coffee,35,4.0,2.0,ok
+1205,2026-02-12,pune ,Cutting Chai,15,4.0,4.0,great chai
+1206,2026-01-26,Pune,Masala Chai,20,3.0,,coffee was cold
+1207,2026-01-05,Goa,Samosa,25,1.0,4.0,loved the samosa
+1208,2026-01-31,Mumbai,Masala Chai,20,5.0,2.0,coffee was cold
+1209,2026-01-26,Pune,Cutting Chai,15,5.0,1.0,coffee was cold
+1210,2026-02-21,Delhi,Masala Chai,20,3.0,5.0,too sweet
+1211,2026-02-10,PUNE,Samosa,25,3.0,,great chai
+1212,2026-01-21,Mumbai,Cutting Chai,15,1.0,2.0,coffee was cold
+1213,2026-01-04,Pune,Samosa,25,3.0,3.0,ok
+1214,2026-02-04,MUMBAI,Samosa,25,3.0,4.0,slow service
+1215,2026-01-17,delhi ,Masala Chai,20,4.0,1.0,coffee was cold
+1216,2026-02-10,Mumbai,Masala Chai,20,3.0,5.0,too sweet
+1217,2026-02-20,Mumbai,Masala Chai,20,1.0,3.0,slow service
+1218,2026-01-21,Delhi,Masala Chai,20,1.0,5.0,too sweet
+1219,2026-02-23,Goa,Cutting Chai,15,3.0,4.0,great chai
+1220,2026-01-31,Pune,Masala Chai,20,4.0,1.0,crowded but good
+1221,2026-02-01,Pune,Samosa,25,5.0,5.0,ok
+1222,2026-02-15,Pune,Cutting Chai,15,5.0,3.0,ok
+1223,2026-02-16,GOA,Samosa,25,,5.0,"perfect, will return"
+1224,2026-02-23,Goa,Masala Chai,20,1.0,4.0,too sweet
+1225,2026-02-28,Pune,Masala Chai,20,5.0,2.0,ok
+1226,2026-01-09,Goa,Cutting Chai,15,3.0,4.0,great chai
+1227,2026-01-25,Pune,Masala Chai,20,5.0,2.0,slow service
+1228,2026-02-25,Mumbai,Masala Chai,20,4.0,,slow service
+1229,2026-01-19,Mumbai,Masala Chai,20,2.0,3.0,"perfect, will return"
+1230,2026-01-01,Goa,Cutting Chai,15,3.0,,too sweet
+1231,2026-02-03,PUNE,Samosa,25,3.0,5.0,ok
+1232,2026-02-14,Mumbai,Samosa,25,2.0,1.0,too sweet
+1233,2026-02-13,Delhi,Filter Coffee,35,4.0,2.0,crowded but good
+1234,2026-02-17,Pune,Masala Chai,20,2.0,1.0,coffee was cold
+1235,2026-02-07,Pune,Cutting Chai,15,4.0,4.0,slow service
+1236,2026-01-09,Mumbai,Filter Coffee,35,,3.0,loved the samosa
+1237,2026-02-19,Goa,Masala Chai,20,3.0,1.0,great chai
+1238,2026-01-25,Delhi,Cutting Chai,15,4.0,1.0,loved the samosa
+1239,2026-02-19,DELHI,Samosa,25,1.0,4.0,"perfect, will return"
+1240,2026-02-18,Delhi,Cutting Chai,15,3.0,2.0,too sweet
+1241,2026-02-27,Delhi,Cutting Chai,15,1.0,5.0,ok
+1242,2026-01-01,DELHI,Samosa,25,1.0,2.0,"perfect, will return"
+1243,2026-02-21,DELHI,Filter Coffee,35,5.0,3.0,slow service
+1244,2026-02-07,Delhi,Masala Chai,20,5.0,1.0,slow service
+1245,2026-01-29,Mumbai,Filter Coffee,35,4.0,,crowded but good
+1246,2026-02-16,Pune,Samosa,25,5.0,1.0,loved the samosa
+1247,2026-02-26,Delhi,Masala Chai,20,4.0,2.0,ok
+1248,2026-01-31,Pune,Samosa,25,1.0,5.0,loved the samosa
+1249,2026-01-06,Goa,Filter Coffee,35,2.0,5.0,"perfect, will return"
+1250,2026-02-12,Delhi,Filter Coffee,35,2.0,3.0,ok
+1251,2026-01-14,mumbai ,Cutting Chai,15,4.0,5.0,ok
+1252,2026-01-14,Goa,Masala Chai,20,1.0,2.0,too sweet
+1253,2026-01-12,Pune,Masala Chai,20,4.0,3.0,loved the samosa
+1254,2026-01-12,Mumbai,Filter Coffee,35,5.0,4.0,"perfect, will return"
+1255,2026-02-23,Pune,Samosa,25,1.0,5.0,loved the samosa
+1256,2026-01-22,Goa,Filter Coffee,35,5.0,1.0,slow service
+1257,2026-01-07,Delhi,Cutting Chai,15,4.0,3.0,coffee was cold
+1258,2026-01-11,Delhi,Samosa,25,,2.0,ok
+1259,2026-01-24,Pune,Samosa,25,3.0,2.0,loved the samosa
+1260,2026-01-21,Delhi,Masala Chai,20,2.0,5.0,loved the samosa
+1261,2026-01-19,Delhi,Masala Chai,20,4.0,4.0,crowded but good
+1262,2026-02-25,Delhi,Samosa,25,,,coffee was cold
+1263,2026-02-21,Goa,Masala Chai,Rs 20,3.0,1.0,slow service
+1264,2026-02-03,Mumbai,Samosa,25,3.0,4.0,ok
+1265,2026-02-28,Mumbai,Masala Chai,20,3.0,5.0,coffee was cold
+1266,2026-01-21,Delhi,Masala Chai,20,5.0,1.0,"perfect, will return"
+1267,2026-01-09,Delhi,Cutting Chai,15,5.0,5.0,crowded but good
+1268,2026-01-17,Mumbai,Cutting Chai,Rs 15,1.0,2.0,great chai
+1269,2026-01-06,Delhi,Cutting Chai,15,4.0,3.0,crowded but good
+1270,2026-02-26,Pune,Masala Chai,20,1.0,1.0,too sweet
+1271,2026-01-13,Delhi,Samosa,Rs 25,1.0,5.0,great chai
+1272,2026-01-27,Delhi,Samosa,25,3.0,2.0,ok
+1273,2026-01-12,Pune,Filter Coffee,35,5.0,5.0,slow service
+1274,2026-02-27,Delhi,Samosa,Rs 25,3.0,1.0,great chai
+1275,2026-01-10,Pune,Samosa,25,3.0,1.0,"perfect, will return"
+1276,2026-01-31,Goa,Samosa,25,4.0,,slow service
+1277,2026-02-26,Mumbai,Cutting Chai,15,3.0,4.0,loved the samosa
+1278,2026-01-31,Mumbai,Filter Coffee,35,3.0,4.0,ok
+1279,2026-02-23,Delhi,Samosa,25,4.0,2.0,coffee was cold
+1280,2026-02-22,Mumbai,Filter Coffee,35,1.0,1.0,great chai
+1281,2026-02-15,Delhi,Samosa,25,,2.0,"perfect, will return"
+1282,2026-02-13,Pune,Filter Coffee,35,2.0,1.0,too sweet
+1283,2026-02-04,Delhi,Cutting Chai,15,3.0,4.0,slow service
+1284,2026-02-04,Delhi,Filter Coffee,35,5.0,5.0,too sweet
+1285,2026-02-19,Goa,Masala Chai,20,4.0,3.0,ok
+1286,2026-01-26,Pune,Samosa,25,4.0,2.0,great chai
+1287,2026-02-25,Mumbai,Samosa,25,5.0,,coffee was cold
+1288,2026-02-21,Delhi,Filter Coffee,35,1.0,2.0,loved the samosa
+1289,2026-01-23,Delhi,Samosa,25,3.0,1.0,coffee was cold
+1290,2026-01-25,Pune,Cutting Chai,15,5.0,1.0,coffee was cold
+1291,2026-02-12,Delhi,Cutting Chai,Rs 15,2.0,4.0,great chai
+1292,2026-02-24,Pune,Filter Coffee,35,2.0,4.0,slow service
+1293,2026-01-06,Pune,Cutting Chai,15,5.0,3.0,coffee was cold
+1294,2026-01-05,GOA,Masala Chai,20,4.0,4.0,great chai
+1295,2026-01-15,Pune,Cutting Chai,Rs 15,2.0,1.0,crowded but good
+1296,2026-01-26,Mumbai,Filter Coffee,35,1.0,3.0,crowded but good
+1297,2026-01-10,Delhi,Cutting Chai,15,3.0,4.0,coffee was cold
+1298,2026-01-31,Delhi,Filter Coffee,35,5.0,4.0,crowded but good
+1299,2026-02-01,DELHI,Filter Coffee,35,3.0,1.0,loved the samosa
+1300,2026-02-26,Delhi,Cutting Chai,15,,1.0,coffee was cold
+1190,2026-01-20,Pune,Samosa,25,1.0,2.0,ok
+1124,2026-02-07,Goa,Samosa,25,2.0,2.0,"perfect, will return"
+1186,2026-01-28,Pune,Filter Coffee,35,2.0,3.0,"perfect, will return"
+1214,2026-02-04,MUMBAI,Samosa,25,3.0,4.0,slow service
+1107,2026-02-08,Pune,Masala Chai,20,3.0,2.0,loved the samosa
+1128,2026-01-09,DELHI,Filter Coffee,35,1.0,3.0,slow service
+1177,2026-02-28,Pune,Samosa,25,5.0,2.0,crowded but good
+1074,2026-01-22,Delhi,Cutting Chai,15,2.0,5.0,ok
+1276,2026-01-31,Goa,Samosa,25,4.0,,slow service
+1243,2026-02-21,DELHI,Filter Coffee,35,5.0,3.0,slow service
+1267,2026-01-09,Delhi,Cutting Chai,15,5.0,5.0,crowded but good
+1148,2026-02-09,Delhi,Cutting Chai,15,5.0,3.0,loved the samosa
