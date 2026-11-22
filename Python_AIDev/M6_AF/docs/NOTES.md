@@ -305,3 +305,43 @@ Use a local deterministic client; do not let CI depend on a paid external model.
 5. Add upload limits and test one oversized file.
 6. Consume the SSE endpoint with a client and verify blank-line termination.
 7. Replace `TicketStore` with a file-backed store; describe its concurrency limitations.
+
+## 19. LMS demonstration walkthrough
+
+**Exact resource:** [demonstration 8622](https://lms.snvaveranda.com/mod/resource/view.php?id=8622).
+
+### Actual scenario and data
+
+The LMS walk-through creates an AI backend: a FastAPI application accepts a prompt, validates it with Pydantic, sends it to Groq, and returns generated text with the model name and success status. It also adds environment-based configuration, a health/root check, Uvicorn, Swagger UI, and a Python HTTP client.
+
+Use the public contract in abstract:
+
+```json
+{"prompt":"Explain a batch retry policy in two sentences."}
+```
+
+```json
+{"response":"<provider text>","model":"<configured model>","status":"success"}
+```
+
+These are synthetic shapes, not copied responses. The provider key is configuration, not request data, and must be read from the local environment or an ignored `.env`.
+
+### Step-by-step beginner workflow
+
+1. Create a `PromptRequest` with a constrained non-empty string and a `PromptResponse` with `response`, `model`, and `status`.
+2. Add `GET /` and verify `{"message": ...}` before involving a provider.
+3. Add a local deterministic generator behind a small function/dependency; this makes validation and route behavior testable offline.
+4. Run Uvicorn and inspect both `/docs` and `/openapi.json`.
+5. Submit one valid request and then missing, wrong-type, and extra-field variants. Record status and validation locations.
+6. Add a provider adapter with a finite timeout and environment key. Translate provider failures to a safe service error.
+7. Confirm response serialization matches the response model.
+8. Call the endpoint through a client and assert method, URL, status, content type, and required response fields.
+9. Review Git status to prove no `.env` or key can be committed.
+
+### Connection to the current examples
+
+`support_triage_api.py` is an **original extension beyond the LMS Groq endpoint**. It uses FastAPI/Pydantic and an injectable model-like collaborator, but its ticket schema, status semantics, repository, filtering, and SSE stream are independently designed. It remains local/offline by default and intentionally returns `503` for an undeclared external provider rather than pretending to call one.
+
+### Deliberate practice
+
+Write a table with valid, absent prompt, blank prompt, provider timeout, and provider invalid-response cases. Predict the exact HTTP status and safe public body. Replace the dependency with a fake that records its arguments; verify no secret reaches it through logs or response output. Run the same invalid request in Swagger and through a client and compare their evidence.

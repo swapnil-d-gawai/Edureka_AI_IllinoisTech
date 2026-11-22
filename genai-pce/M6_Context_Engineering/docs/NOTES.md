@@ -200,3 +200,44 @@ source changed -> new version indexed -> old version superseded
    or conflict escalation.
 5. **Operations (25):** Specify ingestion, re-indexing, cache invalidation, deletion,
    metrics, SLOs, and rollback for a RAG corpus.
+
+## 14. LMS demonstration walkthrough
+
+Open `https://lms.snvaveranda.com/mod/resource/view.php?id=8637`. ShopEase's
+four demonstrations answer different operational questions:
+
+1. **Buffer + summary memory:** ordered support turns are retained in a recent
+   buffer while older turns become a compact durable summary. The expected
+   object contains both, not an ever-growing raw transcript.
+2. **Retrieval grounding:** policy chunks are ranked, relevant chunks are
+   inserted, and replies cite their evidence. Compare with an ungrounded reply
+   and inspect unsupported claims.
+3. **Chunk/map-reduce:** a long policy handbook is split with overlap, each
+   chunk summarized independently, and intermediate summaries combined.
+4. **Token use:** full history, sliding window, and buffer-summary strategies
+   are measured before successive responses; compare prompt size with retained
+   facts, not size alone.
+
+Inputs are conversation messages, documents, chunk/source metadata, retrieval
+parameters, and token/model settings. Outputs include retained context, a
+summary, source IDs, policy-grounded text, intermediate/final summaries, and a
+per-turn usage table. Treat this like an Informatica extraction with lineage:
+every selected chunk must have source, position, version/effective date, and
+access scope.
+
+Begin with a small Unix-like buffer: when the newest entry overflows, summarize
+or archive the oldest according to a documented rule. Then separate memory
+from retrieval: memory preserves interaction facts; retrieval supplies
+authoritative evidence. Before any model call, enforce metadata filters such as
+tenant or jurisdiction. Afterward, verify citations and that a compact answer
+did not contradict or omit a consequential policy condition.
+
+The original `examples/context_engine.py` is the offline default. It uses
+embedded synthetic policy text, stable source IDs, lexical retrieval,
+tenant-filtering, and a deterministic model—no Groq, upload, or secret. The LMS
+use of hosted generation and real measured usage is optional provider practice.
+
+Practice deliberately: lower the buffer limit, trace what moves to the
+summary, then change chunk overlap and query a boundary condition. Compare
+quality, source correctness, estimated/actual tokens, privacy failures, and
+latency in one table. A smaller prompt is not automatically a better context.

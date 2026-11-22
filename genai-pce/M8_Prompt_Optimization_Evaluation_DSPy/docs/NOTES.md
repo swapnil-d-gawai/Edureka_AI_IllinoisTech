@@ -228,3 +228,44 @@ You are ready to apply the curriculum if you can design a system in which a mode
 propose but not authorize, context has lineage and access controls, structured output is
 validated, tools are allowlisted, optimization uses distinct data, failure is observable,
 and a deterministic gate can escalate or roll back safely.
+
+## 15. LMS demonstration walkthrough
+
+Open `https://lms.snvaveranda.com/mod/resource/view.php?id=8641`. The ShopEase
+activities form one evaluation-to-release workflow:
+
+- Define DSPy signatures for ticket categorization, urgency, and reply drafting;
+  compare direct prediction and chain-of-thought modules, and compose a
+  reusable pipeline.
+- Start from a zero-shot `TriageTicket` program, compile it with
+  `BootstrapFewShot` using labeled training examples, and compare against the
+  same development records with exact-match accuracy.
+- Evaluate a grounded reply program with separate fact-inclusion, concision,
+  model-judged groundedness/relevance, and weighted-composite metric functions.
+
+Inputs are typed ticket/policy records and disjoint train/development/holdout
+sets. Expected evidence includes category/urgency, a short reply, chosen
+demonstrations, baseline and compiled scores, component/composite metrics, and
+a versioned promotion decision. A score is not enough: preserve data-slice and
+safety outcomes so a candidate cannot hide harmful regressions in its average.
+
+For a beginner, a DSPy signature is the equivalent of a declared target
+schema, a module is a reusable mapping, and compilation is a controlled
+parameter/search job. First establish a zero-shot baseline. Keep the held-out
+set untouched, optimize only on the permitted training examples, and evaluate
+once on development. Then inspect the selected demonstrations because a
+bootstrap can select a convenient but unrepresentative path. Metric functions
+should be deterministic where possible; if an LLM judge is used, calibrate it
+and retain the independent fact/safety gates.
+
+`examples/prompt_optimizer.py` is the safe original counterpart: it is
+DSPy-inspired, runs several deterministic candidates, evaluates dev and
+holdout separately, and blocks promotion on hard gates. It requires no
+provider and does not copy LMS training examples or compiled output. A real
+DSPy/Groq adapter is optional.
+
+For deliberate practice, add a gamable concision metric and pair it with a
+must-include policy fact metric. Create a candidate that raises the composite
+while missing one protected fact or subgroup, and demonstrate why the hard gate
+prevents release. Record the candidate, metric versions, data split, and
+rollback baseline.

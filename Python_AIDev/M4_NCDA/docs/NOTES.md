@@ -310,3 +310,47 @@ The remaining valid unique order rows depend on the sample definition shown in `
 5. Compute a region KPI and compare it to a hand-calculated two-row case.
 6. Preserve a quarantine frame with an explicit reason code for each rejection.
 7. Write tests for duplicate warehouse SKU, invalid price, missing column, and empty input.
+
+## 17. LMS demonstration walkthrough
+
+**Exact resources:** [demonstration 8615](https://lms.snvaveranda.com/mod/resource/view.php?id=8615) and [in-class practical 8616](https://lms.snvaveranda.com/mod/resource/view.php?id=8616).
+
+### Actual scenario and data
+
+The main archive builds from array/matrix arithmetic, ufuncs/aggregation, NumPy text/binary/image handling, pandas Series/DataFrame construction and CSV I/O, selection/filtering, then concatenation, left/right/inner/outer/self joins, missing values, and duplicates. It uses marks, employee-style sample records, and a car-sales table. The separate in-class notebook revisits Python fundamentals needed before analysis.
+
+The LMS-like schemas, expressed as field contracts rather than copied records, are:
+
+- marks: `Sr. No.`, `College`, `Class`, `Exam_id`, `Name`, `Marks`;
+- employees: `ID`, `Name`, `Age`, `Salary`, `Department`;
+- cars: `Manufacturer`, `Model`, `Sales in thousands`, `4-year resale value`, `Vehicle type`, `Price in thousands`, `Engine size`, `Horsepower`, physical dimensions/weight, fuel/capacity/efficiency, and `Latest Launch`.
+
+A synthetic practice row can be:
+
+```text
+ID,Name,Age,Salary,Department
+101,Example A,31,62000,Support
+```
+
+Do not commit the downloaded `marks.csv`, `sample_data.csv`, `Car_sales.csv`, or extracted notebooks.
+
+### Step-by-step beginner workflow
+
+1. Start with a two-row synthetic DataFrame whose expected values you can calculate.
+2. Print `shape`, columns, dtypes, missing counts, and duplicate count before changing anything.
+3. Create a NumPy array from one numeric column and demonstrate broadcasting with a clearly shaped weight.
+4. Convert numeric/date text explicitly; preserve invalid values in a reject record.
+5. Filter one business rule and inspect the Boolean mask itself.
+6. Build two tiny frames with one shared and one unmatched key.
+7. State expected result counts, execute one join at a time, and use merge validation/indicator to verify many-to-one behavior.
+8. Add one missing value and one duplicate; decide whether to reject, fill, or retain and record why.
+9. Aggregate by one category and compare the output with a hand calculation.
+10. Only then replace synthetic data with a CSV downloaded from the LMS.
+
+### Connection to the current examples
+
+The default `order_quality_analysis.py` is an **original extension beyond the LMS demonstrations**. It shares the analysis toolkit but introduces a different order/warehouse schema, explicit quality masks, duplicate policy, a cardinality-checked join, and JSON/CSV outputs. The repository intentionally does not include the LMS datasets.
+
+### Deliberate practice
+
+For each table, create four records: clean, missing, duplicate, and wrong type. Predict expected kept/rejected/joined counts before loading. Ask whether a value of zero, an empty string, and `NaN` represent the same business state. Write down the join key and allowed cardinality. Finish with a group aggregate and verify it against a two-row hand calculation.

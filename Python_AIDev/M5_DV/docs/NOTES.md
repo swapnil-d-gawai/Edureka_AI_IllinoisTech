@@ -211,3 +211,40 @@ Generate a fixed seed for synthetic data, record the version of key libraries, a
 6. Add an annotation for the worst service without obscuring data.
 7. Build a smoke test that verifies PNG signature and dimensions.
 8. Explain one reason a weighted latency KPI could differ from a simple mean.
+
+## 17. LMS demonstration walkthrough
+
+**Exact resources:** [demonstration 8618](https://lms.snvaveranda.com/mod/resource/view.php?id=8618), [demonstration 8619](https://lms.snvaveranda.com/mod/resource/view.php?id=8619), and [demonstration 8620](https://lms.snvaveranda.com/mod/resource/view.php?id=8620).
+
+### Actual scenario and data
+
+The first exercise explores a showroom's car-sales table with line, bar, stacked/grouped, histogram, pie, scatter, and box plots. The second changes Matplotlib presentation details and exports a readable result. The third switches to a top-music CSV to arrange related plots in subplots and a `GridSpec`.
+
+The car schema is manufacturer/model, sales and resale measures, vehicle type, price, engine and horsepower, dimensions/weight, fuel/capacity/efficiency, and launch date. The music schema is track, artist, genre, tempo, energy, danceability, loudness, liveness, valence, duration, acousticness, speechiness, and popularity. A small original sample is:
+
+```text
+Manufacturer,Model,Sales in thousands,Vehicle type,Price in thousands,Horsepower
+Example Motors,Alpha,12.5,Passenger,28.0,160
+Example Motors,Beta,8.0,Car,35.0,220
+```
+
+For music, invent three track rows rather than copying the downloaded CSV.
+
+### Step-by-step beginner workflow
+
+1. Write one decision question, for example “Which model has the greater sales value?”
+2. Profile the chosen fields and identify units, categorical/numeric types, missing values, and sort order.
+3. With only two or three synthetic rows, make a hand-drawn expectation for the chart.
+4. Choose an encoding: line for an ordered trend, bar for category comparison, histogram/box for distribution, scatter for two numeric measures.
+5. Create one Matplotlib axes and set title, labels, units, and legend only where needed.
+6. Save and reopen the image; check that labels are not clipped and colors are distinguishable.
+7. Rebuild the view with two panels using the same scale where comparison requires it.
+8. Recalculate each bar/point/box from the source values, then try the downloaded LMS CSV in a local ignored folder.
+
+### Connection to the current examples
+
+`ops_dashboard.py` is an **original extension beyond the LMS demonstrations**. It uses Matplotlib/Seaborn, subplots, and customization in an operations domain with synthetic service measurements. Its CSV contract and metrics are independent of both LMS datasets, so the default run stays offline and reproducible.
+
+### Deliberate practice
+
+Choose two questions that should use different chart types. For each, create a “best” and an intentionally misleading chart and explain the difference. Include one small category, one large category, and one missing value. Add a third panel, align its scale with an existing panel, and verify numerically that aggregation did not change the interpretation.

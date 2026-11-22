@@ -240,3 +240,39 @@ Debug checklist:
 4. **Lab (20):** Add assertions to a local copy of `attention_lab.py` that every output shape is expected and every attention concept is row-normalized.
 5. **Operations (30):** Design benchmark slices for 256, 2K, and 16K tokens. Include quality,
    p95, memory, and cost, and explain one safe failure at the context limit.
+
+## 15. LMS demonstration walkthrough
+
+Use `https://lms.snvaveranda.com/mod/resource/view.php?id=8629` for the
+ShopEase activity. The three demonstrations are one learning sequence:
+
+1. **Attention inspection:** input one support sentence; tokenize it; run a
+   BERT encoder with attention available; select a layer and head; and inspect
+   both one matrix and a layer average. Expected artifacts are token IDs/text,
+   attention tensor dimensions, heatmaps, and strongest-attended tokens for a
+   selected query.
+2. **Architecture comparison:** pass related work to BERT (a missing-word
+   prediction), GPT-2 (left-to-right continuation), and T5 (conditioned
+   transformation). The expected outputs differ by architecture and should not
+   be ranked without a common task rubric.
+3. **Token/context limits:** tokenize the same product/support text with
+   WordPiece, BPE, and SentencePiece variants. Record token counts, special
+   tokens, truncation, and the warning behavior at a configured maximum.
+
+Begin with the SQL/ETL analogy: query and key scores resemble a matching join,
+softmax is a per-row normalization, and each transformer layer is another
+mapping in a scheduled chain. Causal masking is an access rule: later columns
+are unavailable to earlier tokens. Unlike a SQL row, however, attention
+weights are learned signals and do not prove semantic truth.
+
+The offline `attention_lab.py` is the default counterpart. It exposes the
+numeric mechanics, causal mask, family selection, and token-budget estimate
+without downloads. The original four-token ShopEase-like example is intentionally
+smaller than the LMS's pretrained models so a beginner can audit every
+calculation. Optional real-model work should first download only public model
+artifacts through an approved environment; never commit caches.
+
+For deliberate practice, hand-compute one two-token or four-token attention
+row, alter one query, and predict the ranking before execution. Then compare
+one sentence across tokenizers and prepare an operations note explaining why
+the same word count can lead to different token cost and context failures.

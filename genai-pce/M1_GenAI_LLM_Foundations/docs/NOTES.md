@@ -232,3 +232,52 @@ behavior, and ownership. LLM calls must be idempotent or separated from side eff
 Before Module 2, explain without ML vocabulary: (1) how text is split into pieces,
 (2) how the model proposes another piece, (3) why a proposal is not proof, and
 (4) where deterministic controls belong in the pipeline.
+
+## 14. LMS demonstration walkthrough
+
+Open the demonstration resource at
+`https://lms.snvaveranda.com/mod/resource/view.php?id=8627`. It contains two
+different demonstrations, so keep their controls separate.
+
+### RetailVerse mini-transformer
+
+The source feed is a two-column customer-review table: `review` is the raw
+text and `sentiment` is a label. Treat unknown vocabulary like a data-quality
+dimension value, not as an error to silently discard. The demonstrated path
+maps labels to `negative`, `neutral`, and `positive`, builds a vocabulary,
+encodes to a fixed 15-position sequence, trains a compact transformer, and
+returns one label per review at inference.
+
+Use this beginner trace:
+
+1. Reconcile row count, nulls, duplicate text, and allowed labels.
+2. View whitespace tokenization like an Informatica lookup; show why unseen
+   words require an unknown token.
+3. Add start/end/padding markers and check that every encoded row has 15
+   positions.
+4. Trace embeddings + position, attention, feed-forward, pooling, and logits
+   as successive jobs. `argmax` is the final routing decision, not certainty.
+5. Save training/validation metrics and test new, ambiguous, and sarcastic text.
+
+Expected outputs are predicted labels plus evaluation metrics; the limited
+curated data cannot guarantee good performance on short or ambiguous reviews.
+For the safe default, run `examples/support_intake.py`. It uses no PyTorch,
+LMS dataset, network, or credentials and demonstrates the same
+extract/transform/classify/check route. The original example is a support
+intake analogue, not a claim that its keyword rules reproduce transformer
+accuracy.
+
+### Eventora generation controls
+
+The second feed is an event-promotion brief: event/product, channel, desired
+tone, and length. The LMS demonstration uses the same wording while varying
+temperature, top-p, and the output-token cap to compare creativity, focus,
+and length. A 0.3/0.2 corporate run should be more constrained than a 0.9/1.0
+creative run; a token cap may truncate rather than produce a complete thought.
+In the offline counterpart, change one mock generation setting and score tone,
+required facts, completion, and repetition.
+
+Practice deliberately by adding three unseen reviews and three event briefs.
+Freeze the prompt/data each time and change exactly one control. Keep a small
+comparison table and justify the operating choice as you would an SQL or Unix
+job parameter: output quality, failure behavior, and rollback matter.

@@ -17,3 +17,17 @@ The output contains attention weights for an illustrative four-token review, the
 - Compare `O(n²)` attention materialization with a blocked implementation.
 - Add positional encodings and a residual/feed-forward block.
 - Load a real tokenizer behind an optional interface and compare actual token counts.
+
+## LMS bridge and optional provider practice
+
+The LMS resource (`8629`) asks learners to inspect ShopEase BERT attention,
+compare BERT/GPT-2/T5 architecture behavior, and compare tokenizer/context
+limits. This example is the offline numeric bridge: verify the weights and
+masking before optionally loading public model/tokenizer artifacts behind
+isolated adapters. A first external-model run may need downloads; cached
+artifacts, credentials, and downloaded model files must remain outside the
+repository.
+
+SQL, Informatica, and Unix analogies explain mechanics for a pipeline learner;
+they do not restrict the actual transformer families, visualizations, or
+context-limit experiments demonstrated in the LMS.

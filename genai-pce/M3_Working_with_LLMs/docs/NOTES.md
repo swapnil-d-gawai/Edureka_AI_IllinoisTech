@@ -206,3 +206,47 @@ of an AutoSys retry loop that can duplicate work and consume the entire budget.
    output path from entry to terminal state.
 5. **Architecture (25):** Design a gateway interface and telemetry record for one hosted
    and one local provider without putting credentials in code.
+
+## 13. LMS demonstration walkthrough
+
+Open `https://lms.snvaveranda.com/mod/resource/view.php?id=8631`. The actual
+developer-lab scenarios cover three distinct interfaces:
+
+- Configure Gemini, discover supported models/limits, send explanation, code,
+  translation, and general prompts, inspect response candidates, finish
+  reason, and safety metadata, and run multi-turn chat.
+- Compare creative-generation controls—temperature, top-p, top-k, maximum
+  output tokens, and stop sequences—while holding model/prompt constant.
+- Estimate prompt tokens, compare verbose/concise requests, trim context, and
+  contrast individual and batched requests.
+
+The input schema is a prompt plus model identifier and generation settings;
+chat adds ordered turns. Expected outputs are text, status/finish information,
+length or estimated token measurements, and explicit errors for missing
+credentials, invalid/empty input, rate limits, or limits. The generated prose
+will vary, so tests should check constraints and evidence rather than exact
+wording.
+
+A beginner workflow maps the call to a controlled external lookup:
+
+1. Load the credential from the process environment and fail closed if absent.
+2. Discover the model and read its input/output limits like a source-system
+   contract.
+3. Start with one short generation and log request ID, latency, and usage but
+   not the key or sensitive prompt.
+4. Add bounded backoff for retryable failures and immediate escalation for
+   malformed or policy-blocked results.
+5. Change one parameter at a time and compare prompt/output totals, not only
+   subjective style.
+
+The default is `examples/llm_gateway.py`: its `MockProvider`, deterministic
+throttle, and malformed structured response reproduce operational paths
+offline. This is the current original example and is the abstraction the LMS
+Gemini adapter would fit behind; it does not pretend that a mock measures real
+provider safety or tokenization.
+
+For deliberate practice, define a release test for 50-token and 150-token
+limits, predict the effect of low versus high top-p, and record retry count,
+finish reason, latency, estimated cost, and validation result. Provider
+execution is optional; a learner can complete the entire reasoning and mock
+workflow offline.

@@ -199,3 +199,45 @@ A simple classifier can outperform a deep tree for a finite deterministic decisi
    escalation outcomes.
 5. **Operations (25):** Design a one-, three-, and five-path benchmark including p95,
    tokens, cost, shared-error rate, and a hard safety threshold.
+
+## 13. LMS demonstration walkthrough
+
+The demonstration resource is
+`https://lms.snvaveranda.com/mod/resource/view.php?id=8635`.
+
+### Scenarios and required evidence
+
+- **SmartCart:** split a cracked-phone/failed-contact complaint into problems,
+  then branch a return decision across damage, reporting time, and
+  non-returnable status. Produce auditable issue and decision records.
+- **FinSight:** financial mappings enter as protected application data; content
+  that orders label substitution must not override them or expose a secret.
+  Show the clean case, injection, defense, and retest.
+- **TrendHive:** bootstrap a reusable customer-review summarizer from a task,
+  refine business tone, infer a pattern from input/output examples, and rank
+  audience-specific variants. Output is reusable instructions plus scored
+  evidence, not an assumed best prompt.
+- **Sales-agent robustness:** compare phrasings and stress noisy biographies,
+  notes, or outreach constraints using A/B, noisy-input, semantics, automated,
+  cross-model, and scenario tests.
+- **StratNova HITL:** turn meeting facts into a client draft, improve structure,
+  clarity, and tone at separate checkpoints, and finish only after human
+  approval with revision rationale.
+
+For beginners, model CoT/ToT like Unix control flow: a sequence for
+independent complaint checks, and a branch/tree for eligibility. Ask the model
+for a concise plan or structured decision fields, not sensitive hidden
+reasoning. Put policy data and untrusted prose in separate variables.
+Deterministic checks must still decide label allowlists, thresholds, and tool
+eligibility. A model's confident explanation is merely another candidate.
+
+The safe repository counterpart is `examples/guarded_triage.py`. It preserves
+the original incident-triage scenario and samples/validates deterministic
+offline hypotheses, blocks suspicious input, aggregates disagreement, and
+escalates consequential cases. It supplies controls applicable to every LMS
+business; it is not a narrowing of the actual demonstration's scope.
+
+Practice by adding an injection in a different data field, a policy branch
+whose evidence is incomplete, a noisy sales note, and a HITL edit. Compare
+three strategies on correctness, consistency, abstention, injection resistance,
+token cost, and review time; forbid promotion if any hard gate fails.

@@ -33,6 +33,31 @@ Recommended sequence:
 
 Examples use mocks or local algorithms by default. Any real model provider integration should be supplied later behind the documented interface rather than hard-coded credentials.
 
+## LMS demonstrations: study bridge
+
+The module docs now distinguish protected LMS presentation resources from the
+eight demonstration resources (`8627`, `8629`, `8631`, `8633`, `8635`, `8637`,
+`8639`, and `8641`). Each `docs/README.md` gives a compact walkthrough and each
+`docs/NOTES.md` adds the underlying business scenario, input/output contract,
+beginner trace, offline counterpart, relationship to the original repository
+example, and deliberate practice. The walkthroughs summarize behavior without
+copying LMS prose, solutions, datasets, or copyrighted archive contents.
+
+The original examples intentionally remain deterministic/offline by default.
+Optional hosted work belongs behind an adapter, is enabled explicitly with
+environment-based configuration, retains application validation and safety
+gates, and must not commit credentials, downloaded models, LMS archives, or
+datasets.
+
+SQL, Informatica, Unix, scheduler, and ETL experience is used as pedagogical
+context—inputs, mappings, control flow, lineage, validation, and failure
+handling are familiar concepts. It is **not** a boundary on the actual
+demonstration breadth. The LMS work includes mini-transformers and generation
+controls; attention/architecture/tokenization; Gemini APIs; multiple NLP and
+business-document prompts; advanced reasoning, injection defense and HITL;
+memory/retrieval/chunking/token measurement; Pydantic incident extraction and
+recovery; and DSPy pipelines, optimization, and multi-metric evaluation.
+
 ## Module map
 
 | Module | Focus |
@@ -45,3 +70,9 @@ Examples use mocks or local algorithms by default. Any real model provider integ
 | `M6_Context_Engineering` | Memory, windowing, retrieval, and chunking |
 | `M7_Structured_Outputs_Tool_Use` | Structured outputs, function calling, and tools |
 | `M8_Prompt_Optimization_Evaluation_DSPy` | Prompt evaluation, optimization, and DSPy concepts |
+
+Run all offline examples from the repository root with:
+
+```bash
+for example in genai-pce/M*/examples/*.py; do python "$example"; done
+```

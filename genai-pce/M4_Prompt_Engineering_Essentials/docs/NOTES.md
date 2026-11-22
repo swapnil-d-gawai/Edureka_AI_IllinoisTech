@@ -204,3 +204,42 @@ safety violations
    why its improvement cannot yet be generalized to a real provider.
 5. **Release (25):** Define the held-out promotion threshold, hard safety gates, rollback,
    prompt version, and owner for a production classification prompt.
+
+## 13. LMS demonstration walkthrough
+
+Use `https://lms.snvaveranda.com/mod/resource/view.php?id=8633`. There are
+three scenarios rather than one generic prompt lesson:
+
+- **NexAI:** zero-, one-, and few-shot specifications create executive,
+  research, business-proposal, legal-case, and market-research documents for
+  different audiences.
+- **InnovateTech:** a common method is applied to six different contracts:
+  summarization, code generation, document-grounded answering, translation,
+  classification, and information extraction.
+- **TechStream:** a deployment incident describes a bad YAML change, skipped
+  integration tests, 503 responses from the user-authentication service for
+  45 minutes affecting about 30% of sessions, rollback/patch, and follow-up
+  prevention. The vague combined prompt is refined into sentence
+  classification, exact extraction, a one-line Slack update, and translation.
+
+Think of this as refining a target table specification. First define the
+source fields and transformation; then add required columns, allowed values,
+format, missing-data behavior, and a sample row. Zero-shot is enough only for
+a clear, well-known task. One-shot establishes a format. Few-shot is useful
+when class boundaries or style are difficult, but each example consumes
+tokens and can encode bias. For TechStream, expected extracted facts include
+the affected service, code, duration, and resolution team; "unknown" is safer
+than inventing a fact.
+
+Beginner sequence: copy only the source facts into a case table; write and
+run the zero-shot variant; add one representative pair; add boundary examples;
+decompose multi-NLP and incident requirements into jobs; evaluate outputs on a
+held-out set; and change one ambiguity per revision. Treat answer text as data
+that must be parsed, not as proof.
+
+`examples/prompt_benchmark.py` is the safe counterpart for the repository's
+original support-ticket case. It is narrower than the LMS business breadth but
+tests the same variant/evaluator discipline offline. Practice by creating a
+new example in your own words, adding ambiguous and instruction-injection
+cases, and requiring accurate abstention. Do not evaluate by copying expected
+LMS wording.

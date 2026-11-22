@@ -289,3 +289,40 @@ One random-health result may vary only if parameters or implementation change; s
 6. Write JSONL with one valid and one invalid row, then CSV with quoted commas.
 7. Add a retry only to the read-like vendor health check and justify its limit.
 8. Test that the semaphore never permits more than its configured number of active calls.
+
+## 15. LMS demonstration walkthrough
+
+**Exact resource:** [demonstration 8613](https://lms.snvaveranda.com/mod/resource/view.php?id=8613).
+
+### Actual scenario and data
+
+The demonstration collection covers object/class identity and scope; single/multiple inheritance and method resolution; a banking-style customer/privileged-customer amount calculation; standard modules/imports and path/system functions; exceptions, `finally`, propagation, and custom exceptions; regular-expression search/matching/replacement; and a final Groq `asyncio` timing exercise over multiple independent prompts.
+
+Use synthetic records rather than the archive's examples:
+
+```text
+Customer(id="C-2", name="Sample User", kind="standard", principal=1000)
+prompts = ["summarize item A", "classify item B", "extract terms from item C"]
+```
+
+The input contract should separate business fields from provider configuration. A real Groq run additionally needs a locally configured key; it is not data for the repository.
+
+### Step-by-step beginner workflow
+
+1. Define one class with immutable-looking input fields and one behavior.
+2. Instantiate twice; inspect instance and class values separately to understand scope.
+3. Add one child class and draw “parent → child”; only then try multiple inheritance and inspect method resolution.
+4. Calculate regular and privileged outputs from your own principal/rate before coding the branch.
+5. Place a division-conversion failure inside `try`; catch the narrow expected exception and ensure cleanup runs in `finally`.
+6. Apply a simple regex to one invented identifier; test matching, non-matching, and replacement separately.
+7. Model three provider calls with local `asyncio.sleep` delays. Run sequentially, then concurrently with `gather`.
+8. Record status for every coroutine, add one deliberate failure, and confirm other results remain visible.
+9. Only after the offline flow is correct, replace the local delay with a provider adapter that reads its key from the environment and has a timeout.
+
+### Connection to the current examples
+
+`demo-class.py`, `inheritence_demo.py`, and `ExcepHandling_Logging_demo.py` support the classroom concepts. `async_vendor_monitor.py` is an **offline original extension beyond the LMS Groq demo**: it adds a replaceable client interface, custom domain exception, bounded semaphore, structured result, and sequential/concurrent parity check. It therefore teaches concurrency without requiring or emulating copied LMS provider code.
+
+### Deliberate practice
+
+Predict the output of a customer amount calculation before running. Force one non-numeric value, one missing mapping key, one regex mismatch, and one async failure. Require the caller to see the failure reason rather than an empty result. Change the three delays and state which workflow has the larger expected wall-clock time and why. Timing measurements are evidence from one run, not a universal performance promise.

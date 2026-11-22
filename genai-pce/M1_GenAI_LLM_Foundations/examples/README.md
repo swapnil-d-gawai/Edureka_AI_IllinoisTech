@@ -19,3 +19,17 @@ The default run prints structured decisions for refund, shipment, and ambiguous 
 - Add segment-level evaluation and a confusion matrix.
 - Create a benchmark containing multilingual and adversarial tickets.
 - Add a `Provider` implementation for a real API behind an explicit configuration object.
+
+## LMS bridge and optional provider practice
+
+The LMS demonstration (`docs/README.md`, resource `8627`) covers RetailVerse
+review classification with a small transformer and Eventora creative-copy
+generation. Run this support-intake mock first to learn validation and routing;
+then, only as an extension, add a provider adapter for the Eventora task or a
+locally approved transformer. Keep keys in environment configuration and
+compare outputs against a fact/tone/length rubric. The default remains fully
+offline and does not include the LMS dataset or generated LMS solutions.
+
+SQL, Informatica, and Unix experience is pedagogical context for understanding
+the pipeline; it is not a limit on the breadth of the RetailVerse/Eventora
+demonstrations or on learner practice.

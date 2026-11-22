@@ -358,3 +358,40 @@ You do not need dataclasses to use Python, but they remove repetitive constructo
 - Which Python collection corresponds best to a SQL row, a result set, and a lookup table?
 - Which analogies are useful but imperfect?
 - What state is immutable in the planner, and why is that helpful?
+
+## 13. LMS demonstration walkthrough
+
+**Exact resources:** [demonstration 8609](https://lms.snvaveranda.com/mod/resource/view.php?id=8609) and [companion scripts 15704](https://lms.snvaveranda.com/mod/resource/view.php?id=15704).
+
+### Actual scenario and data
+
+The notebook demonstration is specifically about number kinds and arithmetic/comparison work. The companion scripts broaden the lesson: repeated review text is normalized and classified, model metadata demonstrates built-in types, token counts and unit prices demonstrate arithmetic, and a terminal mini assistant uses a name plus an experience sentence. These are independent small scenarios, not one dataset.
+
+A safe synthetic replacement is:
+
+```text
+reviews = ["smooth service", "broken item"]
+token_counts = {"input": 1200, "output": 300}
+prices_per_million = {"input": 2.0, "output": 8.0}
+```
+
+The schema is a list of strings for reviews and a mapping of named numeric values for the model/cost calculation. No downloaded data is necessary.
+
+### Step-by-step beginner workflow
+
+1. Start with `reviews = []` and add one short positive and one short negative string of your own.
+2. Predict the lower-case form, then use `in` to locate one indicator word.
+3. Create scalar values for integer token count, decimal price, trained flag, and optional URL.
+4. Print each value, `type(value)`, and its intended meaning.
+5. On paper, apply parentheses to the token-cost formula: convert tokens to millions, multiply by unit price, then add input/output cost.
+6. Test `+`, `-`, `*`, `/`, `//`, `%`, comparison, logical, identity, and membership operators one family at a time.
+7. Run the mini-assistant flow using synthetic input; do not include personal information.
+8. Compare predicted and actual output, and explain which operation produced each changed value.
+
+### Connection to the current examples
+
+`demo-data_types.py` and `demo-operators.py` are original, local counterparts to these demonstrations. `mini_ai_assistant.py` follows the review-input idea. The JSON-driven `course_workspace_planner.py` is an **original extension beyond the LMS demonstration**: it adds schema validation, dataclass records, stable planning, dry runs, and an exit-code contract. None of these files is a copy of the LMS notebook or solution scripts.
+
+### Deliberate practice
+
+Before each run, create an input/expected-output table. Replace an integer with `True`, a negative count, and a decimal; predict whether validation should accept it. Add neutral review text and define an explicit “unknown” branch instead of allowing it to fall into another label. Finally, explain the cost formula without running Python: total cost is unit-conversion followed by multiplication and addition, not token multiplication before unit conversion.

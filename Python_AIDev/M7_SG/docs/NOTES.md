@@ -258,3 +258,43 @@ Both can call a FastAPI backend and both need production controls; the framework
 6. Show a disabled/degraded state when backend health fails.
 7. Add a file input, but enforce type and 1 MB byte limits before content extraction.
 8. Test that both UIs show exactly the same result for the same valid input.
+
+## 16. LMS demonstration walkthrough
+
+**Exact resources:** [Streamlit demonstration 8624](https://lms.snvaveranda.com/mod/resource/view.php?id=8624) and [Gradio demonstration 8625](https://lms.snvaveranda.com/mod/resource/view.php?id=8625).
+
+### Actual scenarios and data
+
+The Streamlit scenario sends complete chat history to a FastAPI `/stream` endpoint, receives Groq output as Server-Sent Events, displays chunks progressively, and saves completed turns in session state. The Gradio scenario sends a prompt plus optional file/image controls to `POST /generate`, receives structured response/model/status JSON, renders Markdown, and demonstrates a shareable launch.
+
+Synthetic Streamlit input:
+
+```json
+{"messages":[
+  {"role":"user","content":"What is a retry?"},
+  {"role":"assistant","content":"A controlled repeat after a failure."},
+  {"role":"user","content":"Give one safety rule."}
+]}
+```
+
+A Gradio text/image request may contain `prompt`, `image_base64`, and `image_mime_type`; the actual image should be small, non-sensitive, and synthetic. File/image contents are untrusted and do not need to be submitted to a model for the local UI exercises.
+
+### Step-by-step beginner workflow
+
+1. Start and test the FastAPI health route with a normal HTTP client before opening any UI.
+2. Build one Streamlit chat input and initialize `session_state` history explicitly.
+3. Use a fake backend that yields three fixed chunks; verify SSE framing and the `[DONE]` rule before real model work.
+4. Accumulate a display buffer, render each chunk, then append the completed assistant response exactly once.
+5. Simulate a disconnect and timeout; show a user-safe partial/failure state.
+6. Build a Gradio function whose input/output arity matches its components.
+7. Validate prompt length, optional file type/byte limit, backend timeout, response shape, and Markdown rendering.
+8. Repeat the same synthetic prompt in the Streamlit and Gradio front ends and compare final structured facts.
+9. Add a provider key only at the server boundary and verify it is absent from browser state, logs, and Git.
+
+### Connection to the current examples
+
+`streamlit_incident_app.py` and `gradio_incident_demo.py` are **original offline extensions beyond the LMS live-Groq demonstrations**. They preserve the state/component and backend-boundary ideas while deliberately sharing a deterministic incident-triage rule. They do not stream a paid model or require an LMS archive. The LMS assignment's optional image/file flow should be treated as an additional integration exercise, not as default repository behavior.
+
+### Deliberate practice
+
+Interrupt a stream after its second synthetic chunk and decide how partial output is labeled. Submit an empty prompt, an oversized synthetic upload, a valid response with the wrong JSON fields, and a backend timeout. Test that Streamlit reruns do not duplicate history entries and Gradio's returned object count matches its components. Finish by listing which concerns belong to UI, backend, and provider layers.

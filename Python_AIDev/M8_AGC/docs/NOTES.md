@@ -302,3 +302,41 @@ These concerns are requirements, not something an AI completion can infer safely
 6. Review a ten-line patch for invented API, missing edge case, and secret exposure.
 7. Compare “scanner says pass,” focused pytest, and end-to-end run in a short evidence table.
 8. State the human decision and remaining risks even after all gates pass.
+
+## 19. LMS demonstration walkthrough
+
+**Exact resources:** [setup 15496](https://lms.snvaveranda.com/mod/resource/view.php?id=15496), [generation/refactoring 15497](https://lms.snvaveranda.com/mod/resource/view.php?id=15497), [unit testing 15498](https://lms.snvaveranda.com/mod/resource/view.php?id=15498), and [advanced prompting 15499](https://lms.snvaveranda.com/mod/resource/view.php?id=15499).
+
+### Actual scenario and data
+
+The first demonstration verifies Copilot account/VS Code authorization, inline completion, and chat. The second generates an average-over-list function and refactors a deliberately repetitive customer formatter. The third creates a price validator and reviews/generated pytest coverage, including investigating an incorrect expectation. The fourth compares vague and structured prompting while refining a small order-pricing contract.
+
+Use only original records:
+
+```text
+numbers = [10, 13, 17]
+customer = {"name":"Sample", "email":"person@example.invalid", "city":"Testville"}
+items = [{"price":25.0, "quantity":2}]
+```
+
+The schemas are ordinary in-memory Python values; no dataset or provider key is required. All acceptance behavior must be stated independently of the generated code.
+
+### Step-by-step beginner workflow
+
+1. Sign in and confirm both Chat and an inline suggestion; do not continue if the development environment is not authenticated.
+2. In a tiny file, describe expected behavior and one edge case before asking for code.
+3. Review every generated line. In particular, verify empty input, rounding, and exception behavior rather than accepting plausible output.
+4. Run the function with the predicted case; then use selected-code inline chat for one narrow readability refactor.
+5. Confirm behavior before and after the refactor. Reject unrelated changes.
+6. Ask for price tests by requirement (valid, boundary, invalid) and run pytest before judging coverage.
+7. Add one deliberately wrong expectation, read the assertion, then ask Copilot to explain the failure without changing production behavior.
+8. For the pricing scenario, compare a vague prompt with role/context/task/constraints/output. Use focused selection and follow-up prompts.
+9. Read the diff, rerun focused tests, and record what deterministic evidence does not prove.
+
+### Connection to the current examples
+
+`ai_change_gate.py` is an **original extension beyond the LMS demonstrations**. It organizes proposal text, snippets, tests, and validation into explainable heuristic gates. It does not call Copilot, run the proposed patch in the repository, or certify correctness. Passing its deterministic checks still requires actual pytest/execution and human requirement review.
+
+### Deliberate practice
+
+Write a requirement table before prompting: empty list, negative price, zero quantity, and total calculation. Compare what a vague request and a structured request miss. Ask for a risk list first, then a one-function refactor, then focused tests. Introduce an intentionally incorrect expected result and use the failure output to resolve the disagreement. Finish with a diff checklist and name at least one risk that successful tests do not eliminate.

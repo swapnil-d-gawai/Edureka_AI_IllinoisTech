@@ -14,3 +14,7 @@ Install only if absent: `pip install streamlit gradio`. Streamlit should show a 
 Both UIs import `incident_triage.py`, which remains independent of either frontend framework.
 
 Challenges: introduce an environment-controlled FastAPI base URL, add a file input and bounded text extraction, stream the result, add backend-timeout UX, and make the two UIs share a real service module.
+
+## LMS bridge
+
+LMS resources 8624 and 8625 respectively add a Streamlit-to-SSE/FastAPI streaming flow and a Gradio-to-FastAPI flow with optional file/image controls. First model the `{role, content}` history and three fixed stream chunks locally, then compare that shape with `docs/NOTES.md`. These incident UIs are original, offline extensions and intentionally keep live Groq, share links, uploads, and keys out of the default path.

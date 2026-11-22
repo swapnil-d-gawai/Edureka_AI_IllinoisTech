@@ -208,3 +208,42 @@ application authority.
    `run_shell` rejection.
 5. **Production design (25):** Specify retries, timeouts, idempotency, authorization,
    audit, human approval, and compensation for one state-changing tool.
+
+## 14. LMS demonstration walkthrough
+
+Use `https://lms.snvaveranda.com/mod/resource/view.php?id=8639`. AsterOne's
+demonstration starts with free-form employee service-desk messages and compares
+prompt-only JSON with a schema-enforced path. Typical input facts include a
+requester, department, asset identifier, symptoms, urgency, and impact; the
+expected output is one typed incident record suitable for routing and
+reporting. Exact prose is not the acceptance criterion—schema and semantic
+completeness are.
+
+TechAssist's second demonstration starts from model output that may be fenced
+in Markdown, wrapped in prose, contain a trailing comma, use an invalid type,
+omit a field, or end mid-value. The recovery pipeline should:
+
+1. preserve the raw response;
+2. extract an object and make only deterministic, safe syntax repairs;
+3. parse JSON;
+4. validate fields through Pydantic;
+5. check required meaning (for example, service and symptom);
+6. use a retry/provider only when local repair cannot recover meaning; and
+7. stop at a human-review result after a bounded budget.
+
+This resembles landing data in a staging table before applying Informatica
+business transformations. Never "repair" uncertainty by guessing severity or
+impact. Validation errors should become concise feedback for the next attempt,
+not be hidden.
+
+The default `examples/structured_router.py` keeps the original smaller
+incident-routing case offline. It explicitly validates a raw mock response,
+rejects malformed/unauthorized fields, retries once with feedback, and permits
+only a fixed read-only tool. Adding Pydantic behind an optional dependency is
+useful LMS practice, but the application should retain validation and tool
+authorization regardless of provider structured-output mode.
+
+Deliberately test these five rows: Markdown wrapper, trailing comma, wrong
+numeric type, missing required field, and truncation. Mark each as local safe
+repair, retry, or human escalation. Then assert that no unknown tool or
+state-changing action executes even if JSON validation succeeds.

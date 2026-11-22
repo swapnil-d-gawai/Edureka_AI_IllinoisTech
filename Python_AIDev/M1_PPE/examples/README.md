@@ -23,3 +23,7 @@ The summary reports five lesson plans, 12 directories, sorted output, and no fil
 2. Detect an existing workspace and produce a change report.
 3. Add optional `--format csv`.
 4. Write focused tests for aliases, invalid booleans, and boundary lesson counts.
+
+## LMS bridge
+
+Before this original planner, follow the number/operator activity in LMS resource 8609 and the small script bundle in 15704: predict scalar operations, inspect types, and use synthetic review text for the assistant pattern. This planner then extends that material into validated course records and a safe filesystem preview; it is not a reproduction of the LMS solution.

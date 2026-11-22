@@ -349,3 +349,40 @@ The duplicate-removal stage intentionally occurs after per-line classification. 
 6. Write a separate rejected-only report while retaining stable input order.
 7. Test empty file, missing file, one malformed line, duplicate ID, and all-clean input.
 8. Explain why a pending-file replacement is helpful but does not replace backup/retention policy.
+
+## 14. LMS demonstration walkthrough
+
+**Exact resources:** [demonstration 8611](https://lms.snvaveranda.com/mod/resource/view.php?id=8611) and [companion scripts 15705](https://lms.snvaveranda.com/mod/resource/view.php?id=15705).
+
+### Actual scenario and data
+
+Resource 8611 is a nine-part practice set: branch/loop forms; terminal and file operations; and separate operations for list, tuple, string, set, dictionary, bytes/byte array, and `range`. Resource 15705's extracted bundle contains the same introductory `module-1` review/type/cost/assistant scripts found in the M1 companion resource, so use it for review and do not substitute it for the formal 8611 exercises.
+
+Use tiny local records such as:
+
+```text
+scores = [2, 7, 7, 10]
+event = {"kind": "notice", "code": "A2"}
+words = "red,blue,red"
+```
+
+The formal demos also create/read a text file and transform text to/from bytes. This schema has no sensitive or downloaded values.
+
+### Step-by-step beginner workflow
+
+1. Draw a truth table for one `if/elif/else` example, including the value that reaches `else`.
+2. Write a `for` version that visits `scores`; then write a `while` version and identify the statement that guarantees progress.
+3. Add `break` and `continue` only after predicting the exact visited values.
+4. Create a local text file with two lines, read it through `with`, and report line numbers.
+5. Perform one operation per collection: append/resolve a list item, slice a tuple, normalize a string, calculate set difference, and perform a strict dict lookup.
+6. Encode one non-ASCII string, inspect `bytes`, then explain why decoding needs an encoding.
+7. Evaluate `range(start, stop, step)` as a lazy description and list its values by hand.
+8. Re-run with empty input and a missing path; classify failures rather than hiding them.
+
+### Connection to the current examples
+
+`incident_batch.py` is an **original extension beyond the LMS demonstrations**. It combines the same collections, branching, loops, and file handling into a JSON Lines processor. It adds business decisions not required by the archive: accepted/rejected contracts, queues, duplicate policy, and adjacent pending-file replacement. The default data remains synthetic/offline.
+
+### Deliberate practice
+
+Create a table for list, tuple, string, set, dict, bytes, byte array, and `range` with “ordered?”, “mutable?”, and one operation. Test a blank text line, duplicate ID, unknown dictionary shape, a trailing newline, and ranges whose stop is negative or less than start. Predict every iteration count before executing. For file work, use a deliberately different local filename rather than relying on the course archive path.

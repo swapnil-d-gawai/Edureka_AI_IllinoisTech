@@ -17,3 +17,16 @@ Default execution is offline and uses `MockProvider`; no credentials or network 
 - Track p50/p95 latency and token usage in a JSON metrics file.
 - Implement per-provider retries, circuit breaking, and idempotency keys.
 - Add a schema field to the request and validate JSON responses after provider calls.
+
+## LMS bridge and optional provider practice
+
+The LMS resource (`8631`) uses Gemini for model discovery, basic/chat calls,
+generation-control experiments, error handling, and token optimization. This
+gateway is the offline bridge to that lifecycle. For optional live practice,
+implement the existing provider interface in a separate adapter, read the key
+from the environment, set a small output cap and timeout, and never enable it
+by default. Reuse the mock's validators, retry policy, telemetry, and
+malformed-output gate rather than bypassing them.
+
+The data-pipeline/SQL/Informatica/Unix background is a teaching analogy, not a
+constraint on API, SDK, chat, generation-parameter, or optimization breadth.

@@ -17,3 +17,16 @@ The standard-library implementation uses no model API. A `TaskProgram` interface
 - Add bootstrap few-shot selection and instruction search.
 - Measure confidence intervals, subgroup quality, latency, and token cost.
 - Add a persisted version manifest and signed approval for promotion.
+
+## LMS bridge and optional provider practice
+
+The LMS resource (`8641`) demonstrates DSPy signatures/modules, ShopEase
+`BootstrapFewShot` optimization, and multiple reply metrics. This offline
+optimizer provides typed task, split, metric, and promotion-gate practice
+before a real DSPy `TaskProgram` is introduced. For optional provider-backed
+DSPy work, pass configuration from the environment, keep an offline baseline,
+version demonstrations/settings, and require held-out and hard-gate results
+before promotion. Never commit LMS examples, compiled artifacts, or keys.
+
+The learner's SQL/Informatica/Unix background offers pipeline analogies but
+does not bound the actual DSPy pipeline, optimization, or evaluation scope.

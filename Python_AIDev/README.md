@@ -4,6 +4,22 @@ LMS course: [Modern Python & AI-Assisted Development B-22](https://lms.snvaveran
 
 Existing course work is preserved in the original abbreviated module folders.
 
+## How the material relates to LMS demonstrations
+
+The `docs/README.md` maps and `docs/NOTES.md` walkthroughs supplement rather
+than limit study. They are derived explanations of the actual downloadable
+LMS demonstrations: use them to reconstruct the workflow in your own words,
+compare it with the original archive, and identify where this repository adds
+an independent practice scenario. They intentionally do **not** reproduce
+protected LMS solution code, notebook prose, PDFs, or course datasets.
+
+Demonstration archives may differ in scope from the presentation link attached
+to each module. The module walkthrough identifies the exact demonstration
+resource IDs, the actual archive scenarios, and any original repository
+extension. Download course data only into your own ignored/local workspace when
+you choose to follow the optional bridge in an `examples/README.md`; the
+default examples remain offline, deterministic, and original.
+
 ## Study workflow
 
 The material is written for a learner moving from SQL, Informatica, Unix,
