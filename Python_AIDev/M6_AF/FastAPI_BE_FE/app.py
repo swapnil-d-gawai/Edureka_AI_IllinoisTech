@@ -3,6 +3,16 @@ import requests
 import json
 
 BASE_URL = "http://127.0.0.1:8000"
+# First value bounds connection setup; second bounds time spent waiting to read.
+REQUEST_TIMEOUT = (3.05, 10)
+
+
+def refresh_employee_list():
+    """Fetch a fresh list after an uncertain write so retrying is safe."""
+    response = requests.get(f"{BASE_URL}/employees", timeout=REQUEST_TIMEOUT)
+    if response.status_code == 200:
+        st.session_state["employees"] = response.json().get("employees", [])
+    return response
 
 st.set_page_config(page_title="Employee Management System", layout="wide", initial_sidebar_state="collapsed")
 
@@ -38,7 +48,7 @@ with col1:
     st.markdown('<div class="header-title">👨‍💼 Employee Management System</div>', unsafe_allow_html=True)
 with col2:
     try:
-        response = requests.get(f"{BASE_URL}/health")
+        response = requests.get(f"{BASE_URL}/health", timeout=REQUEST_TIMEOUT)
         if response.status_code == 200:
             st.markdown('<div class="status-healthy">✅ Online</div>', unsafe_allow_html=True)
         else:
@@ -58,7 +68,7 @@ with tab1:
     with col1:
         st.markdown("### 🏠 Welcome")
         try:
-            response = requests.get(f"{BASE_URL}/")
+            response = requests.get(f"{BASE_URL}/", timeout=REQUEST_TIMEOUT)
             if response.status_code == 200:
                 data = response.json()
                 st.markdown(f"**{data['message']}**")
@@ -89,7 +99,7 @@ with tab1:
     with col1:
         st.markdown("### 📈 Employee Count")
         try:
-            response = requests.get(f"{BASE_URL}/employees")
+            response = refresh_employee_list()
             if response.status_code == 200:
                 data = response.json()
                 employees = data.get("employees", [])
@@ -100,7 +110,7 @@ with tab1:
     with col2:
         st.markdown("### 🛠️ Backend Status")
         try:
-            response = requests.get(f"{BASE_URL}/health")
+            response = requests.get(f"{BASE_URL}/health", timeout=REQUEST_TIMEOUT)
             if response.status_code == 200:
                 st.metric("Status", "✅ Healthy")
         except:
@@ -111,10 +121,13 @@ with tab2:
     st.markdown("### 👥 All Employees")
     
     if st.button("🔄 Refresh Data", key="refresh_employees"):
-        st.rerun()
+        try:
+            refresh_employee_list()
+        except requests.RequestException as e:
+            st.error(f"Error: {str(e)}")
     
     try:
-        response = requests.get(f"{BASE_URL}/employees")
+        response = refresh_employee_list()
         if response.status_code == 200:
             data = response.json()
             employees = data.get("employees", [])
@@ -145,7 +158,10 @@ with tab3:
     
     if search_btn:
         try:
-            response = requests.get(f"{BASE_URL}/employees/{employee_id}")
+            response = requests.get(
+                f"{BASE_URL}/employees/{employee_id}",
+                timeout=REQUEST_TIMEOUT,
+            )
             if response.status_code == 200:
                 data = response.json()
                 employee = data.get("employee", {})
@@ -201,7 +217,11 @@ with tab4:
                         "position": position,
                         "email": email
                     }
-                    response = requests.post(f"{BASE_URL}/employees", json=payload)
+                    response = requests.post(
+                        f"{BASE_URL}/employees",
+                        json=payload,
+                        timeout=REQUEST_TIMEOUT,
+                    )
                     if response.status_code == 200:
                         data = response.json()
                         employee = data.get("employee", {})
@@ -225,7 +245,15 @@ with tab4:
                             """)
                     else:
                         st.error("Failed to create employee")
-                except Exception as e:
+                except requests.Timeout:
+                    # A timeout may still mean the backend committed the write.
+                    # Refresh first so users do not accidentally retry a completed POST.
+                    try:
+                        refresh_employee_list()
+                        st.warning("The request timed out. The employee list was refreshed; check it before retrying.")
+                    except requests.RequestException as refresh_error:
+                        st.error(f"Request timed out and refresh failed: {str(refresh_error)}")
+                except requests.RequestException as e:
                     st.error(f"Error: {str(e)}")
 
 # TAB 5: Delete Employee
@@ -243,14 +271,24 @@ with tab5:
     
     if delete_btn:
         try:
-            response = requests.delete(f"{BASE_URL}/employees/{employee_id}")
+            response = requests.delete(
+                f"{BASE_URL}/employees/{employee_id}",
+                timeout=REQUEST_TIMEOUT,
+            )
             if response.status_code == 200:
                 data = response.json()
                 st.success(f"✅ {data.get('message', 'Employee deleted successfully')}")
             else:
                 error_data = response.json()
                 st.error(f"❌ {error_data.get('error', 'Failed to delete employee')}")
-        except Exception as e:
+        except requests.Timeout:
+            # A timeout may follow a completed delete, so refresh before another attempt.
+            try:
+                refresh_employee_list()
+                st.warning("The request timed out. The employee list was refreshed; check it before retrying.")
+            except requests.RequestException as refresh_error:
+                st.error(f"Request timed out and refresh failed: {str(refresh_error)}")
+        except requests.RequestException as e:
             st.error(f"Error: {str(e)}")
 
 st.divider()

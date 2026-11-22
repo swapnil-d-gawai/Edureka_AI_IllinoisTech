@@ -1,3 +1,5 @@
+import re
+
 #------------------------------
 # The Assistant's information
 #------------------------------
@@ -21,8 +23,9 @@ message = input(f"Hi {user_name}, tell me about your experience with our product
 # Analyze the message
 #------------------------------
 text = message.lower()
-positive_count = sum(word in text for word in positive_words)
-negative_count = sum(word in text for word in negative_words)
+tokens = re.findall(r"[a-z]+", text)
+positive_count = sum(word in positive_words for word in tokens)
+negative_count = sum(word in negative_words for word in tokens)
 
 if positive_count > negative_count:
     sentiment = "positive"

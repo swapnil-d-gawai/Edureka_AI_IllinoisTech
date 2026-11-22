@@ -1,5 +1,8 @@
+from threading import Lock
+
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class Employee(BaseModel):
@@ -7,6 +10,23 @@ class Employee(BaseModel):
     name: str
     position: str
     email: str
+
+
+class EmployeeUpdate(BaseModel):
+    # The model makes PUT a validated partial update: omitted fields keep their value.
+    model_config = ConfigDict(extra="forbid")
+
+    name: str | None = Field(default=None, min_length=1)
+    position: str | None = Field(default=None, min_length=1)
+    email: str | None = Field(default=None, min_length=1)
+
+    @field_validator("name", "position", "email", mode="before")
+    @classmethod
+    def reject_null_values(cls, value):
+        if value is None:
+            raise ValueError("field may be omitted, but cannot be null")
+        return value
+
 
 #Create FastAPI application
 app = FastAPI(
@@ -31,6 +51,10 @@ employees: list[Employee] = [
     Employee(id=5, name="Charlie Davis", position="DevOps Engineer", email="charlie.davis@example.com"),
 ]
 
+# Keep a high-water mark so deleting a row never causes an ID to be reused.
+next_employee_id = max((employee.id or 0 for employee in employees), default=0) + 1
+employee_id_lock = Lock()
+
 @app.get("/employees")
 def get_employees():
     return {"employees": employees}
@@ -40,23 +64,34 @@ def get_employee(employee_id: int):
     for employee in employees:
         if employee.id == employee_id:
             return {"employee": employee}
-    return {"error": "Employee not found"}
+    return JSONResponse(status_code=404, content={"error": "Employee not found"})
 
 @app.post("/employees")
 def create_employee(employee: Employee):
-    employee.id = len(employees) + 1
-    employees.append(employee)
+    global next_employee_id
+    with employee_id_lock:
+        # Check existing values too, so the allocation remains collision-free.
+        next_employee_id = max(
+            next_employee_id,
+            max((item.id or 0 for item in employees), default=0) + 1,
+        )
+        employee.id = next_employee_id
+        next_employee_id += 1
+        employees.append(employee)
     return {"employee": employee}
 
 @app.put("/employees/{employee_id}")
-def update_employee(employee_id: int, updated_employee: dict):
-    for employee in employees:
+def update_employee(employee_id: int, updated_employee: EmployeeUpdate):
+    for index, employee in enumerate(employees):
         if employee.id == employee_id:
-            updated_data = {**employee.dict(), **updated_employee}
+            updated_data = employee.model_dump()
+            updated_data.update(updated_employee.model_dump(exclude_unset=True))
+            # The URL owns the resource identity; clients cannot replace it in PUT.
+            updated_data["id"] = employee_id
             updated_record = Employee(**updated_data)
-            employees[employees.index(employee)] = updated_record
+            employees[index] = updated_record
             return {"employee": updated_record}
-    return {"error": "Employee not found"}
+    return JSONResponse(status_code=404, content={"error": "Employee not found"})
 
 @app.delete("/employees/{employee_id}")
 def delete_employee(employee_id: int):
@@ -64,4 +99,4 @@ def delete_employee(employee_id: int):
         if employee.id == employee_id:
             employees.remove(employee)
             return {"message": "Employee deleted successfully"}
-    return {"error": "Employee not found"}
+    return JSONResponse(status_code=404, content={"error": "Employee not found"})

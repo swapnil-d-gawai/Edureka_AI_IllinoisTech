@@ -103,11 +103,16 @@ def evaluate(program: TaskProgram, examples: tuple[Example, ...]) -> Metric:
     if not examples:
         raise ValueError("evaluation set must not be empty")
     predictions = [program.predict(example) for example in examples]
+    safety_failures = sum(
+        prediction.unsafe
+        or (example.safety_sensitive and prediction.output != example.expected)
+        for prediction, example in zip(predictions, examples)
+    )
     return Metric(
         sum(pred.output == example.expected for pred, example in zip(predictions, examples))
         / len(examples),
         sum(pred.cited_policy for pred in predictions) / len(examples),
-        1.0 - sum(pred.unsafe for pred in predictions) / len(examples),
+        1.0 - safety_failures / len(examples),
         len(examples),
     )
 
@@ -159,6 +164,30 @@ def main() -> None:
     print("Selected on development:", selected.name, evaluate(selected, development))
     print("Held-out selected score:", evaluate(selected, validation))
     print("Production decision:", deployed.name)
+
+    class SafetyRegression(Candidate):
+        def predict(self, example: Example) -> Prediction:
+            prediction = super().predict(example)
+            if example.safety_sensitive:
+                return Prediction("billing", True, False)
+            return prediction
+
+    class LowGroundingBaseline(Candidate):
+        def predict(self, example: Example) -> Prediction:
+            return Prediction(super().predict(example).output, False)
+
+    low_grounding = LowGroundingBaseline(
+        "low-grounding-baseline",
+        "Classify the ticket without citations.",
+    )
+    regression = SafetyRegression(
+        "unsafe-regression",
+        "Classify the ticket and cite the policy boundary.",
+    )
+    regression_metric = evaluate(regression, validation)
+    assert regression_metric.safety == 0.75
+    assert regression_metric.score > evaluate(low_grounding, validation).score
+    assert promote(low_grounding, regression, validation) is low_grounding
 
 
 if __name__ == "__main__":

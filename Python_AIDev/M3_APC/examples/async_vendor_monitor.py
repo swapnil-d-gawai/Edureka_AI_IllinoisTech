@@ -121,8 +121,7 @@ async def run(vendors: list[str], output: Path, limit: int) -> dict[str, Any]:
         "concurrent_elapsed_seconds": round(concurrent_elapsed, 4),
         "speedup": round(sequential_elapsed / max(concurrent_elapsed, 0.0001), 2),
         "healthy_count": sum(bool(row["healthy"]) for row in concurrent),
-        "result_parity": sorted(row["vendor"] for row in sequential)
-        == sorted(row["vendor"] for row in concurrent),
+        "result_parity": sequential == concurrent,
     }
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return report

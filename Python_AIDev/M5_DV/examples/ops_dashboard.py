@@ -57,6 +57,8 @@ def load_data(path: Path | None) -> pd.DataFrame:
         raise ValueError("requests and latency must be non-negative")
     if not frame["error_rate"].between(0, 1).all():
         raise ValueError("error_rate must be between 0 and 1")
+    if not frame["availability"].between(0, 1).all():
+        raise ValueError("availability must be between 0 and 1")
     return frame
 
 
@@ -82,7 +84,8 @@ def make_dashboard(frame: pd.DataFrame, output: Path, latency_sla: float) -> dic
     sns.barplot(data=service, x="error_rate", y="service", hue="service", legend=False, ax=axes[0, 1])
     axes[0, 1].set(title="Mean error rate by service", xlabel="Error rate", ylabel="")
     for container in axes[0, 1].containers:
-        axes[0, 1].bar_label(container, fmt="%.2%%")
+        labels = [f"{bar.get_width() * 100:.2f}%" for bar in container]
+        axes[0, 1].bar_label(container, labels=labels)
 
     sns.histplot(data=frame, x="latency_ms", hue="region", bins=18, element="step", ax=axes[1, 0])
     axes[1, 0].axvline(latency_sla, color="#c0392b", linestyle="--")

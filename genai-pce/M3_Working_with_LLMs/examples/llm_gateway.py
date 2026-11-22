@@ -60,8 +60,9 @@ class Response:
 
 
 class Provider(Protocol):
-    # Any adapter with complete(request) can replace MockProvider without changing run.
-    def complete(self, request: Request) -> str: ...
+    # Adapters must enforce this per-call timeout; the gateway cannot interrupt a
+    # synchronous provider that ignores it.
+    def complete(self, request: Request, *, timeout_seconds: float) -> str: ...
 
 
 class MockProvider:
@@ -70,7 +71,9 @@ class MockProvider:
         self._remaining_failures = transient_failures
         self._malformed = malformed
 
-    def complete(self, request: Request) -> str:
+    def complete(self, request: Request, *, timeout_seconds: float) -> str:
+        if not 0.0 < timeout_seconds <= request.settings.timeout_seconds:
+            raise ValueError("provider timeout must be bounded by the request budget")
         if self._remaining_failures:
             self._remaining_failures -= 1
             raise TransientProviderError("simulated 429 throttle")
@@ -95,25 +98,40 @@ def run(
         raise ValueError("invalid retry configuration")
     # End-to-end timing includes retry delays, matching the caller's real wait.
     started = monotonic()
+    deadline = started + request.settings.timeout_seconds
     for attempt in range(1, max_attempts + 1):
+        remaining = deadline - monotonic()
+        if remaining <= 0.0:
+            raise TimeoutError("generation deadline reached before provider call")
         try:
-            text = provider.complete(request)
+            text = provider.complete(request, timeout_seconds=remaining)
             if not text.strip():
                 raise RuntimeError("provider returned an empty completion")
             output = text[: request.settings.max_tokens * 4]
-            elapsed_ms = (monotonic() - started) * 1_000
-            if elapsed_ms > request.settings.timeout_seconds * 1_000:
+            elapsed = monotonic() - started
+            if elapsed >= request.settings.timeout_seconds:
                 raise TimeoutError("generation exceeded configured deadline")
             input_tokens = estimate_tokens(request.system + request.user)
             output_tokens = estimate_tokens(output)
             # Illustrative rates only; real pricing must be versioned from a provider.
             estimated_cost = input_tokens * 0.000001 + output_tokens * 0.000003
-            return Response(text, input_tokens, output_tokens, elapsed_ms, attempt, estimated_cost)
+            return Response(
+                output,
+                input_tokens,
+                output_tokens,
+                elapsed * 1_000,
+                attempt,
+                estimated_cost,
+            )
         except TransientProviderError:
             if attempt == max_attempts:
                 raise
             # Exponential backoff bounds repeated load; production code should add jitter.
-            sleep(base_delay_seconds * (2 ** (attempt - 1)))
+            delay = base_delay_seconds * (2 ** (attempt - 1))
+            remaining = deadline - monotonic()
+            if remaining <= 0.0 or delay >= remaining:
+                raise TimeoutError("retry backoff would exceed generation deadline") from None
+            sleep(delay)
     raise AssertionError("unreachable")
 
 
@@ -138,6 +156,46 @@ def main() -> None:
     # Attempt 3 succeeds, demonstrating a bounded retry path.
     response = run(request, MockProvider(transient_failures=2))
     print(response)
+
+    capped_request = Request(
+        "req-cap",
+        "Return a short answer.",
+        "Demonstrate the output cap.",
+        GenerationSettings(max_tokens=1),
+    )
+
+    class RecordingProvider(MockProvider):
+        def __init__(self) -> None:
+            super().__init__()
+            self.last_timeout = 0.0
+
+        def complete(self, request: Request, *, timeout_seconds: float) -> str:
+            self.last_timeout = timeout_seconds
+            return super().complete(request, timeout_seconds=timeout_seconds)
+
+    recording_provider = RecordingProvider()
+    capped = run(capped_request, recording_provider)
+    assert len(capped.text) == 4 and capped.output_tokens == 1
+    assert 0.0 < recording_provider.last_timeout <= capped_request.settings.timeout_seconds
+
+    deadline_request = Request(
+        "req-deadline",
+        "Return an answer.",
+        "Demonstrate retry deadline enforcement.",
+        GenerationSettings(timeout_seconds=0.001),
+    )
+    try:
+        run(
+            deadline_request,
+            MockProvider(transient_failures=1),
+            max_attempts=2,
+            base_delay_seconds=1.0,
+        )
+    except TimeoutError:
+        pass
+    else:
+        raise AssertionError("retry backoff should not be scheduled beyond the deadline")
+
     try:
         # This trailing comma intentionally makes JSON invalid and exercises safe
         # escalation rather than silently repairing a malformed response.

@@ -89,6 +89,8 @@ def load_specs(path: Path | None) -> list[CourseSpec]:
         loaded = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(loaded, list):
             raise ValueError("input JSON must contain an array")
+        if not all(isinstance(item, dict) for item in loaded):
+            raise ValueError("each course specification must be an object")
         source = loaded
     else:
         source = [

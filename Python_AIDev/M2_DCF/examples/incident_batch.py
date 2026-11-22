@@ -15,15 +15,27 @@ def classify(record: dict[str, object]) -> tuple[str, str]:
     """Route one validated tagged-event mapping to a queue and audit detail."""
     match record:
         case {"kind": "service", "severity": severity, "region": region}:
-            if severity not in SEVERITIES or not isinstance(region, str):
+            if not isinstance(severity, str) or severity not in SEVERITIES or not isinstance(region, str):
                 raise ValueError("invalid service incident")
             return ("page-on-call" if severity in {"high", "critical"} else "normal-queue", str(region))
         case {"kind": "security", "severity": severity, "indicator_count": count}:
-            if severity not in SEVERITIES or isinstance(count, bool) or not isinstance(count, int) or count < 1:
+            if (
+                not isinstance(severity, str)
+                or severity not in SEVERITIES
+                or isinstance(count, bool)
+                or not isinstance(count, int)
+                or count < 1
+            ):
                 raise ValueError("invalid security incident")
             return ("security-team", f"indicators:{count}")
         case {"kind": "data", "severity": severity, "rows_affected": rows}:
-            if severity not in SEVERITIES or isinstance(rows, bool) or not isinstance(rows, int) or rows < 0:
+            if (
+                not isinstance(severity, str)
+                or severity not in SEVERITIES
+                or isinstance(rows, bool)
+                or not isinstance(rows, int)
+                or rows < 0
+            ):
                 raise ValueError("invalid data incident")
             return ("data-platform", f"rows:{rows}")
         case _:

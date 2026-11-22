@@ -9,8 +9,8 @@ from typing import Annotated
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel, Field
+from fastapi.responses import JSONResponse, StreamingResponse
+from pydantic import BaseModel, Field, field_validator
 
 
 class Severity(str, Enum):
@@ -28,6 +28,14 @@ class TicketCreate(BaseModel):
     subject: str = Field(min_length=3, max_length=160)
     body: str = Field(min_length=10, max_length=10_000)
     service: str = Field(min_length=2, max_length=80)
+
+    @field_validator("subject", "body", "service", mode="before")
+    @classmethod
+    def normalize_text(cls, value: object) -> object:
+        """Strip user input before Pydantic applies the meaningful length bounds."""
+        if isinstance(value, str):
+            return value.strip()
+        return value
 
 
 class TriageResult(BaseModel):
@@ -100,9 +108,14 @@ def classifier_dependency() -> Classifier:
 
 
 @app.get("/health")
-async def health() -> dict[str, str]:
+async def health():
     """Report whether the configured classifier mode can actually serve requests."""
-    return {"status": "healthy", "mode": "mock" if not os.getenv("TRIAGE_PROVIDER_ENDPOINT") else "unavailable-provider"}
+    if os.getenv("TRIAGE_PROVIDER_ENDPOINT"):
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={"status": "unhealthy", "mode": "unavailable-provider"},
+        )
+    return {"status": "healthy", "mode": "mock"}
 
 
 @app.post("/tickets", response_model=TriageResult, status_code=status.HTTP_201_CREATED)

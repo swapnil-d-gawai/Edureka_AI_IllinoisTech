@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Command-line utility to fetch top search-result links."""
+"""Command-line utility to fetch top Bing search-result links."""
 
 import argparse
 import requests
@@ -14,6 +14,7 @@ HEADERS = {
 }
 
 def search(query: str, limit: int = 10):
+    """Return extracted links from a Bing search."""
     url = "https://www.bing.com/search"
     params = {"q": query, "count": limit}
     response = requests.get(url, params=params, headers=HEADERS, timeout=10)
@@ -41,9 +42,9 @@ def search(query: str, limit: int = 10):
     return results
 
 def main():
-    parser = argparse.ArgumentParser(description="Get top Google search links.")
+    parser = argparse.ArgumentParser(description="Get top Bing search links.")
     parser.add_argument("query", help="Search term")
-    parser.add_argument("-n", "--num", type=int, default=10, help="Number of results")
+    parser.add_argument("-n", "--num", type=int, default=10, help="Number of Bing results")
     args = parser.parse_args()
 
     try:
@@ -52,7 +53,10 @@ def main():
         raise SystemExit(f"Search failed: {error}")
 
     if not results:
-        print("No results found. Google may be blocking automated requests.")
+        print(
+            "No results were extracted from Bing. The query may have no matches, "
+            "its result markup may have changed, or Bing may have blocked the request."
+        )
         return
 
     for index, result in enumerate(results, start=1):

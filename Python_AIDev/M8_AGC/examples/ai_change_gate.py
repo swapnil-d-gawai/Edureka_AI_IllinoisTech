@@ -59,20 +59,80 @@ def syntax_gate(change: Change) -> list[Finding]:
 
 def secret_gate(change: Change) -> list[Finding]:
     """Flag a small set of likely credential literals without claiming a complete scan."""
-    suspicious = re.compile(r"(?i)(api[_-]?key|token|password|secret)\s*[:=]\s*['\"][^'\"]{8,}['\"]")
-    combined = f"{change.patch}\n{change.test_patch}"
-    return (
-        [Finding("secret-scan", "error", "possible credential literal is present")]
-        if suspicious.search(combined)
-        else []
-    )
+    credential_names = {"api_key", "apikey", "api-key", "token", "password", "secret"}
+
+    def is_secret_name(node: ast.expr) -> bool:
+        """Return whether a Python identifier or mapping key names a credential."""
+        return (
+            isinstance(node, ast.Name) and node.id.lower() in credential_names
+            or isinstance(node, ast.Constant)
+            and isinstance(node.value, str)
+            and node.value.lower() in credential_names
+        )
+
+    def is_secret_value(node: ast.expr) -> bool:
+        """Require a literal value long enough to look like a credential."""
+        return isinstance(node, ast.Constant) and isinstance(node.value, str) and len(node.value) >= 8
+
+    for label, code in (("patch", change.patch), ("tests", change.test_patch)):
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Dict):
+                if any(
+                    key is not None and is_secret_name(key) and is_secret_value(value)
+                    for key, value in zip(node.keys, node.values)
+                ):
+                    return [Finding("secret-scan", "error", "possible credential literal is present")]
+            if isinstance(node, ast.Assign) and is_secret_value(node.value):
+                if any(is_secret_name(target) for target in node.targets):
+                    return [Finding("secret-scan", "error", "possible credential literal is present")]
+            if isinstance(node, ast.AnnAssign) and node.value and is_secret_value(node.value):
+                if is_secret_name(node.target):
+                    return [Finding("secret-scan", "error", "possible credential literal is present")]
+    return []
 
 
 def unsafe_execution_gate(change: Change) -> list[Finding]:
     """Identify risky constructs that need an explicit human security review."""
-    combined = f"{change.patch}\n{change.test_patch}"
-    blocked = [name for name in ("eval(", "exec(", "shell=True", "verify=False") if name in combined]
-    return [Finding("unsafe-pattern", "error", f"risky construct requires review: {name}") for name in blocked]
+    blocked: set[str] = set()
+    for code in (change.patch, change.test_patch):
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Name) and node.func.id in {"eval", "exec"}:
+                    blocked.add(f"{node.func.id}(")
+                for keyword in node.keywords:
+                    if (
+                        keyword.arg == "shell"
+                        and isinstance(keyword.value, ast.Constant)
+                        and keyword.value.value is True
+                    ):
+                        blocked.add("shell=True")
+                    if (
+                        keyword.arg == "verify"
+                        and isinstance(keyword.value, ast.Constant)
+                        and keyword.value.value is False
+                    ):
+                        blocked.add("verify=False")
+            if isinstance(node, (ast.Assign, ast.AnnAssign)):
+                value = node.value
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                if isinstance(value, ast.Constant) and value.value is True:
+                    if any(isinstance(target, ast.Name) and target.id == "shell" for target in targets):
+                        blocked.add("shell=True")
+                if isinstance(value, ast.Constant) and value.value is False:
+                    if any(isinstance(target, ast.Name) and target.id == "verify" for target in targets):
+                        blocked.add("verify=False")
+    return [
+        Finding("unsafe-pattern", "error", f"risky construct requires review: {name}")
+        for name in sorted(blocked)
+    ]
 
 
 def requirement_gate(change: Change) -> list[Finding]:
@@ -90,9 +150,26 @@ def requirement_gate(change: Change) -> list[Finding]:
 
 def test_gate(change: Change) -> list[Finding]:
     """Require the minimum recognizable pytest test and assertion structure."""
-    if "def test_" not in change.test_patch:
+    try:
+        tree = ast.parse(change.test_patch)
+    except SyntaxError:
+        return []
+    test_functions = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name.startswith("test_")
+    ]
+    if not test_functions:
         return [Finding("tests", "error", "test change contains no pytest test function")]
-    if "assert" not in change.test_patch:
+    has_check = any(
+        isinstance(node, ast.Assert)
+        or isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "raises"
+        for function in test_functions
+        for node in ast.walk(function)
+    )
+    if not has_check:
         return [Finding("tests", "error", "test change contains no assertion")]
     return []
 
@@ -163,6 +240,8 @@ def main() -> int:
     try:
         if args.input:
             data = json.loads(args.input.read_text(encoding="utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError("input JSON must contain an object")
             for key in ("requirements", "validations"):
                 if isinstance(data.get(key), list):
                     data[key] = tuple(data[key])

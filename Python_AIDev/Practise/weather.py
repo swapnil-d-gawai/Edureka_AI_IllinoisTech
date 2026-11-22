@@ -50,7 +50,10 @@ def main():
         latitude, longitude = args.lat, args.lon
         place_name = f"{latitude}, {longitude}"
     elif args.location:
-        place = resolve_location(args.location)
+        try:
+            place = resolve_location(args.location)
+        except requests.RequestException as error:
+            raise SystemExit(f"Geocoding lookup failed: {error}")
         latitude = place["latitude"]
         longitude = place["longitude"]
         place_name = f"{place['name']}, {place.get('country', '')}"

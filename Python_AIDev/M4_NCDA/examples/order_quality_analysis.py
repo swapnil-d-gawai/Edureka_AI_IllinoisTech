@@ -82,7 +82,9 @@ def analyze(orders: pd.DataFrame, warehouse: pd.DataFrame) -> tuple[pd.DataFrame
         "duplicate_rows": int(len(duplicate)),
         "unmatched_skus": unmatched,
         "gross_value": round(float(merged["gross_value"].sum()), 2),
-        "fulfillable_rate": round(float(merged["fulfillable"].mean()), 4),
+        "fulfillable_rate": (
+            round(float(merged["fulfillable"].mean()), 4) if not merged.empty else None
+        ),
         "regions": region_summary.to_dict(orient="records"),
     }
     return merged.drop(columns="_merge"), report
